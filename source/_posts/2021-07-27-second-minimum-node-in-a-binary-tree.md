@@ -1,5 +1,5 @@
 ---
-title: 2021-07-27-second-minimum-node-in-a-binary-tree
+title: second-minimum-node-in-a-binary-tree
 date: 2021-07-27 21:53:51
 tags:
 - Easy
