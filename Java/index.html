@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zehai.info","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="[TOC] 面向对象概念面向对象（Object Oriented），对象就是真实世界中的实体，对象与实体是一一对应的，也就是说现实世界中每一个实体都是一个对象，它是一种具体的概念。换句话说，对象是真是存在内存的，实例化的类，比如你想要的粥，类就是锅里的粥，实例化就是盛出来放进碗中，而对象就是一碗粥，真实存在，可以被你操控，又或者你女朋友A是你择偶标准（类）实例化出来的对象，真实存在，但择偶标准并不">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Java">
+<meta property="og:url" content="http://zehai.info/Java/index.html">
+<meta property="og:site_name" content="Zehai&#39;blog">
+<meta property="og:description" content="[TOC] 面向对象概念面向对象（Object Oriented），对象就是真实世界中的实体，对象与实体是一一对应的，也就是说现实世界中每一个实体都是一个对象，它是一种具体的概念。换句话说，对象是真是存在内存的，实例化的类，比如你想要的粥，类就是锅里的粥，实例化就是盛出来放进碗中，而对象就是一碗粥，真实存在，可以被你操控，又或者你女朋友A是你择偶标准（类）实例化出来的对象，真实存在，但择偶标准并不">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-29T14:12:19.000Z">
+<meta property="article:modified_time" content="2021-07-27T07:09:41.863Z">
+<meta property="article:author" content="Zhang Zehai">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zehai.info/Java/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Java | Zehai'blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zehai'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-network">
+
+    <a href="/cnetwork/" rel="section"><i class="fa fa-mobile fa-fw"></i>network</a>
+
+  </li>
+        <li class="menu-item menu-item-computeros">
+
+    <a href="/ComputerOS/" rel="section"><i class="fa fa-desktop fa-fw"></i>computerOs</a>
+
+  </li>
+        <li class="menu-item menu-item-interview">
+
+    <a href="/Interview/" rel="section"><i class="fa fa-user fa-fw"></i>interview</a>
+
+  </li>
+        <li class="menu-item menu-item-java">
+
+    <a href="/Java/" rel="section"><i class="fa fa-tasks fa-fw"></i>java</a>
+
+  </li>
+        <li class="menu-item menu-item-like">
+
+    <a href="/Like/" rel="section"><i class="fa fa-book fa-fw"></i>like</a>
+
+  </li>
+        <li class="menu-item menu-item-nodejs">
+
+    <a href="/Nodejs/" rel="section"><i class="fa fa-plane fa-fw"></i>nodejs</a>
+
+  </li>
+        <li class="menu-item menu-item-redis">
+
+    <a href="/Redis/" rel="section"><i class="fa fa-database fa-fw"></i>redis</a>
+
+  </li>
+        <li class="menu-item menu-item-structure">
+
+    <a href="/Structure/" rel="section"><i class="fa fa-table fa-fw"></i>structure</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="en">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">Java
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <p>[TOC]</p>
+<h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>面向对象（Object Oriented），对象就是真实世界中的实体，对象与实体是一一对应的，也就是说现实世界中每一个实体都是一个对象，它是一种具体的概念。换句话说，对象是真是存在内存的，实例化的类，比如你想要的粥，类就是锅里的粥，实例化就是盛出来放进碗中，而对象就是一碗粥，真实存在，可以被你操控，又或者你女朋友A是你择偶标准（类）实例化出来的对象，真实存在，但择偶标准并不真实存在</p>
+<h2 id="对象VS过程"><a href="#对象VS过程" class="headerlink" title="对象VS过程"></a>对象VS过程</h2><p>面向过程编程更加注重一个类解决一个问题，是一个解决方案，而不需要你去考虑这个对象具体怎么实现的</p>
+<blockquote>
+<p>换句话说，面向过程就是生产一辆汽车，面向对象就是直接买一辆汽车开，你可以把汽车销售商理解为一个对象的提供商，为你提供服务。</p>
+</blockquote>
+<h2 id="三大核心"><a href="#三大核心" class="headerlink" title="三大核心"></a>三大核心</h2><p>三大核心都是尽最大的可能<strong>复用代码</strong></p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>定义类的基石（共同的属性和方法）</p>
+<blockquote>
+<p>避免子类重复定义，<strong>单继承（只能继承一次）</strong>！</p>
+<p>子类拥有父类的所有属性和方法（除了private修饰的属性不能拥有）</p>
+</blockquote>
+<p>目的：代码复用</p>
+<p>重载：同名函数不同参数</p>
+<p>重写：重写方法实现方式（子类个性化）</p>
+<p>final的几个问题：</p>
+<ul>
+<li>final修饰的类不允许继承</li>
+<li>final修饰的方法不允许重写</li>
+<li>final 修饰属性，则该类的该属性不会进行隐式的初始化，所以 该final 属性的<strong>初始化属性必须有值</strong>，或在<strong>构造方法中赋值(但只能选其一，且必须选其一，因为没有默认值！)，</strong>且初始化之后就不能改了，<strong>只能赋值一次</strong></li>
+<li>final 修饰变量，则该变量的值只能赋一次值，在声明变量的时候才能赋值，即变为<strong>常量</strong></li>
+</ul>
+<p>super的几个问题：</p>
+<ul>
+<li>访问父类对象，如：super.age,super.eat()</li>
+<li>子类构造的过程调用父类的构造方法，默认调用无参构造方法</li>
+</ul>
+<h2 id="封装（set-get）"><a href="#封装（set-get）" class="headerlink" title="封装（set/get）"></a>封装（set/get）</h2><p>封装（Encapsulation）是指一种将抽象性函式接口的实现细节部份包装、隐藏起来的方法。</p>
+<p>封装可以被认为是一个保护屏障，防止该类的代码和数据被外部类定义的代码随机访问。</p>
+<p>要访问该类的代码和数据，必须通过严格的接口控制。</p>
+<p>封装最主要的功能在于我们能修改自己的实现代码，而<strong>不用修改</strong>那些调用我们代码的程序片段。</p>
+<p>适当的封装可以让程式码更容易理解与维护，也加强了程式码的安全性。</p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>多态就是同一个接口，使用不同的实例而执行不同操作</p>
+<p>多态性是对象多种表现形式的体现。</p>
+<blockquote>
+<p>现实中，比如我们按下 F1 键这个动作：</p>
+<ul>
+<li>如果当前在 Flash 界面下弹出的就是 AS 3 的帮助文档；</li>
+<li>如果当前在 Word 下弹出的就是 Word 帮助；</li>
+<li>在 Windows 下弹出的就是 Windows 帮助和支持。</li>
+</ul>
+</blockquote>
+<h1 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h1><h2 id="内置数据类型"><a href="#内置数据类型" class="headerlink" title="内置数据类型"></a>内置数据类型</h2><ul>
+<li>byte（-128~127即2^7,默认0）</li>
+<li>short（16位，默认0）</li>
+<li>int(32位，默认0)</li>
+<li>long(64位，默认0L)</li>
+<li>float（32位，默认0.0f）</li>
+<li>double(64位，默认0.0d)</li>
+<li>boolean(1位默认false)</li>
+<li>char（16位0~65535）</li>
+</ul>
+<h2 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h2><p>引用为指针的另一种变种，引用类型指向一个对象，数组</p>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><p>final修饰</p>
+<h2 id="拆箱和装箱"><a href="#拆箱和装箱" class="headerlink" title="拆箱和装箱"></a>拆箱和装箱</h2><p>why</p>
+<p>数字字符日期等基本类型封装成对象方便处理，但是对于CPU来说，一个完整的对象需要很多的指令，对于内存来说，有需要很多的内存，性能自然很低，所以设计装箱和拆箱，是的基本类型在编程中当做非对象处理，在另外场合有当做对象处理</p>
+<blockquote>
+<p>int的自动拆箱和装箱只在-128到127范围中进行，超过该范围的两个integer的 == 判断是会返回false的。</p>
+</blockquote>
+<h2 id="变量存储方式"><a href="#变量存储方式" class="headerlink" title="变量存储方式"></a>变量存储方式</h2><p>基本类型-&gt;栈内存</p>
+<p>引用类型-&gt;堆内存</p>
+<h1 id="String和包装类"><a href="#String和包装类" class="headerlink" title="String和包装类"></a>String和包装类</h1><h2 id="string基础"><a href="#string基础" class="headerlink" title="string基础"></a>string基础</h2><p>字符串属于对象,char属于基本类型，String greetings=“hello,world”</p>
+<blockquote>
+<p>如果如果需要对字符串做很多修改，那么应该选择使用 StringBuffer &amp; StringBuilder 类。通过append可以直接修改，Stringbuilder不是线程安全的但是又速度优势，建议使用，StringBuffer是线程安全</p>
+<ul>
+<li>appen追加</li>
+<li>reverse反转</li>
+<li>delete移除</li>
+<li>insert将int插入</li>
+<li>replace替换等</li>
+</ul>
+</blockquote>
+<p>String是final class不可变不可继承，由于不可变，所以拼接字符串会有很多中间无用的对象，所以会影响性能，但不影响正常小批量的字符串拼接</p>
+<p>StringBuffer是解决上述问题的方案，提供append和 add方法，拼接至尾部，他的本质是一个县城安全的可修改的字符序列，添加了synchronized，但也付出了性能代价</p>
+<p>很多情况下字符串拼接无需线程安全，则可以使用StringBuilder</p>
+<p>StringBuffer 和 StringBuilder 二者都继承了 AbstractStringBuilder ，底层都是利用可修改的char数组(JDK 9 以后是 <strong>byte</strong>数组)。</p>
+<h2 id="string基本用法"><a href="#string基本用法" class="headerlink" title="string基本用法"></a>string基本用法</h2><ul>
+<li>String s1 = “mpptest”</li>
+<li>String s2 = new String();</li>
+<li>String s3 = new String(“mpptest”)</li>
+<li>“==”判断引用内容，equals判断引用地址</li>
+</ul>
+<h2 id="string类源码"><a href="#string类源码" class="headerlink" title="string类源码"></a>string类源码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">intern</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//2：string的intern使用</span></span><br><span class="line">    <span class="comment">//s1是基本类型，比较值。s2是string实例，比较实例地址</span></span><br><span class="line">    <span class="comment">//字符串类型用equals方法比较时只会比较值</span></span><br><span class="line">    String s1 = <span class="string">&quot;a&quot;</span>;</span><br><span class="line">    String s2 = <span class="keyword">new</span> String(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">    <span class="comment">//调用intern时,如果s2中的字符不在常量池，则加入常量池并返回常量的引用</span></span><br><span class="line">    String s3 = s2.intern();</span><br><span class="line">    System.out.println(s1 == s2);<span class="comment">//false</span></span><br><span class="line">    System.out.println(s1 == s3);<span class="comment">//true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>(此处待补充)</p>
+<h2 id="String和JVM"><a href="#String和JVM" class="headerlink" title="String和JVM"></a>String和JVM</h2><ul>
+<li><p>Java栈（线程私有）</p>
+<blockquote>
+<p>每个Java虚拟机线程都有自己的Java虚拟机栈，Java虚拟机栈用来存放栈帧，每个方法被执行的时候都会同时创建一个栈帧（Stack Frame）用于存储局部变量表、操作栈、动态链接、方法出口等信息。每一个方法被调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中从入栈到出栈的过程</p>
+</blockquote>
+</li>
+<li><p>Java堆（线程共享）存放所有对象</p>
+</li>
+<li><p>方法区（线程共享）</p>
+<blockquote>
+<p>方法区在虚拟机启动的时候被创建，它存储了每一个类的结构信息，例如运行时常量池、字段和方法数据、构造函数和普通方法的字节码内容、还包括在类、实例、接口初始化时用到的特殊方法。在JDK8之前永久代是方法区的一种实现，而JDK8元空间替代了永久代，永久代被移除，也可以理解为元空间是方法区的一种实现。</p>
+</blockquote>
+</li>
+<li><p>常量池（线程共享）</p>
+<blockquote>
+<p>常量池常被分为两大类：静态常量池和运行时常量池。</p>
+<pre><code>静态常量池也就是Class文件中的常量池，存在于Class文件中。
+
+运行时常量池（Runtime Constant Pool）是方法区的一部分，存放一些运行时常量数据。
+</code></pre></blockquote>
+</li>
+</ul>
+<h2 id="String为什么不可变"><a href="#String为什么不可变" class="headerlink" title="String为什么不可变"></a>String为什么不可变</h2><p>变量在栈中，数据本身在堆中，引用不可变</p>
+<h2 id="String常用工具"><a href="#String常用工具" class="headerlink" title="String常用工具"></a>String常用工具</h2><p>apache-commons</p>
+<h1 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h1><h1 id="Java类和包"><a href="#Java类和包" class="headerlink" title="Java类和包"></a>Java类和包</h1><h1 id="抽象类和接口"><a href="#抽象类和接口" class="headerlink" title="抽象类和接口"></a>抽象类和接口</h1><h1 id="代码块和代码执行顺序"><a href="#代码块和代码执行顺序" class="headerlink" title="代码块和代码执行顺序"></a>代码块和代码执行顺序</h1><h1 id="自动拆箱装箱"><a href="#自动拆箱装箱" class="headerlink" title="自动拆箱装箱"></a>自动拆箱装箱</h1><h1 id="Class类和Object类"><a href="#Class类和Object类" class="headerlink" title="Class类和Object类"></a>Class类和Object类</h1><h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><h1 id="回调"><a href="#回调" class="headerlink" title="回调"></a>回调</h1><h1 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h1><h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><h1 id="枚举类"><a href="#枚举类" class="headerlink" title="枚举类"></a>枚举类</h1><h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><h1 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h1><h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><h1 id="javac和javap"><a href="#javac和javap" class="headerlink" title="javac和javap"></a>javac和javap</h1><h1 id="java8新特性"><a href="#java8新特性" class="headerlink" title="java8新特性"></a>java8新特性</h1><h1 id="类和包"><a href="#类和包" class="headerlink" title="类和包"></a>类和包</h1><h1 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h1><h1 id="继承封装多态实现原理"><a href="#继承封装多态实现原理" class="headerlink" title="继承封装多态实现原理"></a>继承封装多态实现原理</h1>
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1VS%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">对象VS过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E6%A0%B8%E5%BF%83"><span class="nav-number">1.3.</span> <span class="nav-text">三大核心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">1.4.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E8%A3%85%EF%BC%88set-get%EF%BC%89"><span class="nav-number">1.5.</span> <span class="nav-text">封装（set&#x2F;get）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%80%81"><span class="nav-number">1.6.</span> <span class="nav-text">多态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">基本数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">内置数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">引用数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E9%87%8F"><span class="nav-number">2.3.</span> <span class="nav-text">常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%86%E7%AE%B1%E5%92%8C%E8%A3%85%E7%AE%B1"><span class="nav-number">2.4.</span> <span class="nav-text">拆箱和装箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">2.5.</span> <span class="nav-text">变量存储方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String%E5%92%8C%E5%8C%85%E8%A3%85%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">String和包装类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#string%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.</span> <span class="nav-text">string基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">string基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#string%E7%B1%BB%E6%BA%90%E7%A0%81"><span class="nav-number">3.3.</span> <span class="nav-text">string类源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String%E5%92%8CJVM"><span class="nav-number">3.4.</span> <span class="nav-text">String和JVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%8F%AF%E5%8F%98"><span class="nav-number">3.5.</span> <span class="nav-text">String为什么不可变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="nav-number">3.6.</span> <span class="nav-text">String常用工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#final%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">4.</span> <span class="nav-text">final关键字</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Java%E7%B1%BB%E5%92%8C%E5%8C%85"><span class="nav-number">5.</span> <span class="nav-text">Java类和包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">6.</span> <span class="nav-text">抽象类和接口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E5%92%8C%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">7.</span> <span class="nav-text">代码块和代码执行顺序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8B%86%E7%AE%B1%E8%A3%85%E7%AE%B1"><span class="nav-number">8.</span> <span class="nav-text">自动拆箱装箱</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Class%E7%B1%BB%E5%92%8CObject%E7%B1%BB"><span class="nav-number">9.</span> <span class="nav-text">Class类和Object类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">10.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9E%E8%B0%83"><span class="nav-number">11.</span> <span class="nav-text">回调</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">12.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B"><span class="nav-number">13.</span> <span class="nav-text">泛型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE%E7%B1%BB"><span class="nav-number">14.</span> <span class="nav-text">枚举类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3"><span class="nav-number">15.</span> <span class="nav-text">注解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IO%E6%B5%81"><span class="nav-number">16.</span> <span class="nav-text">IO流</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">17.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">18.</span> <span class="nav-text">内部类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#javac%E5%92%8Cjavap"><span class="nav-number">19.</span> <span class="nav-text">javac和javap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#java8%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-number">20.</span> <span class="nav-text">java8新特性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%92%8C%E5%8C%85"><span class="nav-number">21.</span> <span class="nav-text">类和包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">22.</span> <span class="nav-text">序列化和反序列化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E5%B0%81%E8%A3%85%E5%A4%9A%E6%80%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">23.</span> <span class="nav-text">继承封装多态实现原理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zhang Zehai</p>
+  <div class="site-description" itemprop="description">会做饭的厨子</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhang Zehai</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

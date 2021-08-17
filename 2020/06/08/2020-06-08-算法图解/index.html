@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zehai.info","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="1. 算法简介1.1 二分Why: 复杂度O(n)—&gt;O(logn) 使用限制：有序数组 1.2 大O表示指出算法运行时间的增速，算法需要做的就是把O(n^2)优化到O(n)等 2. 选择排序2.1 数组 链表数组：连续物理空间，可随机访问，增删数据复杂度高 链表：分散无力空间，不可随机访问（只能顺序），增删数据复杂度低     数组 链表     读改 O(1) O(n)   增删 O(n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法图解">
+<meta property="og:url" content="http://zehai.info/2020/06/08/2020-06-08-%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Zehai&#39;blog">
+<meta property="og:description" content="1. 算法简介1.1 二分Why: 复杂度O(n)—&gt;O(logn) 使用限制：有序数组 1.2 大O表示指出算法运行时间的增速，算法需要做的就是把O(n^2)优化到O(n)等 2. 选择排序2.1 数组 链表数组：连续物理空间，可随机访问，增删数据复杂度高 链表：分散无力空间，不可随机访问（只能顺序），增删数据复杂度低     数组 链表     读改 O(1) O(n)   增删 O(n">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-08T03:34:04.000Z">
+<meta property="article:modified_time" content="2021-07-27T07:09:41.897Z">
+<meta property="article:author" content="Zhang Zehai">
+<meta property="article:tag" content="算法图解">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zehai.info/2020/06/08/2020-06-08-%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>算法图解 | Zehai'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zehai'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-network">
+
+    <a href="/cnetwork/" rel="section"><i class="fa fa-mobile fa-fw"></i>network</a>
+
+  </li>
+        <li class="menu-item menu-item-computeros">
+
+    <a href="/ComputerOS/" rel="section"><i class="fa fa-desktop fa-fw"></i>computerOs</a>
+
+  </li>
+        <li class="menu-item menu-item-interview">
+
+    <a href="/Interview/" rel="section"><i class="fa fa-user fa-fw"></i>interview</a>
+
+  </li>
+        <li class="menu-item menu-item-java">
+
+    <a href="/Java/" rel="section"><i class="fa fa-tasks fa-fw"></i>java</a>
+
+  </li>
+        <li class="menu-item menu-item-like">
+
+    <a href="/Like/" rel="section"><i class="fa fa-book fa-fw"></i>like</a>
+
+  </li>
+        <li class="menu-item menu-item-nodejs">
+
+    <a href="/Nodejs/" rel="section"><i class="fa fa-plane fa-fw"></i>nodejs</a>
+
+  </li>
+        <li class="menu-item menu-item-redis">
+
+    <a href="/Redis/" rel="section"><i class="fa fa-database fa-fw"></i>redis</a>
+
+  </li>
+        <li class="menu-item menu-item-structure">
+
+    <a href="/Structure/" rel="section"><i class="fa fa-table fa-fw"></i>structure</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zehai.info/2020/06/08/2020-06-08-%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zhang Zehai">
+      <meta itemprop="description" content="会做饭的厨子">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          算法图解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-08 11:34:04" itemprop="dateCreated datePublished" datetime="2020-06-08T11:34:04+08:00">2020-06-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-27 15:09:41" itemprop="dateModified" datetime="2021-07-27T15:09:41+08:00">2021-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Books/" itemprop="url" rel="index"><span itemprop="name">Books</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-算法简介"><a href="#1-算法简介" class="headerlink" title="1. 算法简介"></a>1. 算法简介</h1><h2 id="1-1-二分"><a href="#1-1-二分" class="headerlink" title="1.1 二分"></a>1.1 二分</h2><p>Why: 复杂度O(n)—&gt;O(logn)</p>
+<p>使用限制：有序数组</p>
+<h2 id="1-2-大O表示"><a href="#1-2-大O表示" class="headerlink" title="1.2 大O表示"></a>1.2 大O表示</h2><p>指出算法运行时间的增速，算法需要做的就是把O(n^2)优化到O(n)等</p>
+<h1 id="2-选择排序"><a href="#2-选择排序" class="headerlink" title="2. 选择排序"></a>2. 选择排序</h1><h2 id="2-1-数组-链表"><a href="#2-1-数组-链表" class="headerlink" title="2.1 数组 链表"></a>2.1 数组 链表</h2><p>数组：连续物理空间，可随机访问，增删数据复杂度高</p>
+<p>链表：分散无力空间，不可随机访问（只能顺序），增删数据复杂度低</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>数组</th>
+<th>链表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读改</td>
+<td>O(1)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>增删</td>
+<td>O(n)</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<p>根据互相特性，选择合适的方式，如频繁增删用链表，反之用数组</p>
+<h2 id="2-2-选择排序"><a href="#2-2-选择排序" class="headerlink" title="2.2 选择排序"></a>2.2 选择排序</h2><p>复杂度：O(n^2)</p>
+<p>遍历n 个元素<strong>选择</strong> 最小/大的，遍历n-1个元素<strong>选择</strong> 最小/大的</p>
+<h1 id="3-递归"><a href="#3-递归" class="headerlink" title="3. 递归"></a>3. 递归</h1><p>类比：套娃 :call_me_hand:</p>
+<p>性能和易读不可兼得</p>
+<p>避免<strong>死循环</strong>！</p>
+<p><strong>尾递归</strong>可以解决部分性能问题</p>
+<p>递归调用栈是性能降低的原因，遵循FIFO</p>
+<h1 id="4-快排"><a href="#4-快排" class="headerlink" title="4. 快排"></a>4. 快排</h1><p>核心：分而治之divide and conquer，快排只是其中的一个应用</p>
+<p>思想：递归的一种应用</p>
+<p>快排（递归）是一种<strong>函数式编程</strong></p>
+<p>快排通过基准值（可以选第一个元素）进行分而治之</p>
+<h1 id="5-散列表"><a href="#5-散列表" class="headerlink" title="5. 散列表"></a>5. 散列表</h1><p>实现方式：<strong>数组</strong>，非链表，检索值key类似数组的下表，可直接访问value</p>
+<p>应用：DNS，阻止重复数据(类set集)，作缓存（服务器端）</p>
+<table>
+<thead>
+<tr>
+<th>复杂度</th>
+<th>散列平均</th>
+<th>散列最糟</th>
+<th>数组</th>
+<th>链表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查找</td>
+<td>1</td>
+<td>n</td>
+<td>1</td>
+<td>n</td>
+</tr>
+<tr>
+<td>插入删除</td>
+<td>1</td>
+<td>n</td>
+<td>n</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>装填因子（0.4）=散列元素（4）/位置总数（10）</p>
+<p>避免冲突：1.良好的散列函数（均匀分布） 2.较低的装填因子（&lt;<strong>0.7</strong>）</p>
+<p>将满时候：1.申请两倍于原来的 新空间 2.hash所有元素到新空间</p>
+<p>冲突解决：</p>
+<ul>
+<li>开放地址（最简单就是冲突顺延下一位，直到为空）</li>
+<li>拉链发（指在某个位子上再拉一条链表，非👖拉链）</li>
+</ul>
+<h1 id="6-BFS"><a href="#6-BFS" class="headerlink" title="6.BFS"></a>6.BFS</h1><p>广度优先搜索breadth first search，解决<strong>无加权</strong>最短路径问题之一</p>
+<p>应用：国际跳棋，拼写检查，人际关系网络</p>
+<h1 id="7-Dijkstra"><a href="#7-Dijkstra" class="headerlink" title="7. Dijkstra"></a>7. Dijkstra</h1><p><strong>正加权有向无环</strong>图的解决算法</p>
+<ol>
+<li>最短时间内到达的节点</li>
+<li>更新该节点临接节点的开销</li>
+<li>重复</li>
+<li>计算最终路径</li>
+</ol>
+<p>解决环：</p>
+<p>负加权：bellman ford algorithm</p>
+<h1 id="8-Greedy"><a href="#8-Greedy" class="headerlink" title="8. Greedy"></a>8. Greedy</h1><p>每步最优–&gt;全局最优，得到近似正确的结果</p>
+<h1 id="9-DP"><a href="#9-DP" class="headerlink" title="9.DP"></a>9.DP</h1><p>列出所有可能</p>
+<h1 id="10-K最邻近算法"><a href="#10-K最邻近算法" class="headerlink" title="10. K最邻近算法"></a>10. K最邻近算法</h1><h1 id="11-next"><a href="#11-next" class="headerlink" title="11.next"></a>11.next</h1><p>树解决了二分查找中，插入删除O(n)降低到O(log n)，但是降低了随机访问能力</p>
+<p>树包括：二叉树，平衡二叉树，B树 B+树，，红黑树</p>
+<p>反向索引：散列表，用于创建搜索引擎—&gt;应用：傅里叶变换</p>
+<p>并行算法，单机并行or分布式，应用：mapreduce，map-&gt;映射 ，reduce-&gt;归并</p>
+<p>布隆过滤器：庞大的散列表（如谷歌的上亿条），通常使用redis实现，是一种概率型数据结构（<strong>偶尔出错</strong>），使用理由，存储空间少</p>
+<p>hyperLogLog：类似布隆，是个日志</p>
+<p>SHA算法</p>
+<ul>
+<li>散列的一种应用</li>
+<li>判断两个（超大）文件是否相同（散列值相同）</li>
+<li>SHA（用户输入密码）？== 数据库存储的SHA值，且拖库后无法还原密码</li>
+<li>SHA是一系列算法的统称，包括SHA-0 ,SHA-1 SHA-2 SHA-3 bcrypt etc</li>
+<li>SHA全局敏感（改动局部，整体全变），SIMhash局部敏感（局部改变，散列值局部改变），后者用于判断网页是否已经搜集，作业是否抄袭，相似度查询</li>
+<li>diffie-hellman密钥交换<ul>
+<li>双方无需知道加密算法，破解难度大</li>
+<li>公钥与私钥，client获取公钥后，1.使用公钥加密 2.服务器端使用私钥解密</li>
+</ul>
+</li>
+</ul>
+<p>线性规划：simplex算法</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3/" rel="tag"># 算法图解</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/30/2020-05-25-FirstUniqueCharacterInAString/" rel="prev" title="2020-05-25-FirstUniqueCharacterInAString">
+      <i class="fa fa-chevron-left"></i> 2020-05-25-FirstUniqueCharacterInAString
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/24/2020-07-23-EventLoop2/" rel="next" title="EventLoop Source">
+      EventLoop Source <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AE%97%E6%B3%95%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1. 算法简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%BA%8C%E5%88%86"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 二分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E5%A4%A7O%E8%A1%A8%E7%A4%BA"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 大O表示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">2.</span> <span class="nav-text">2. 选择排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%95%B0%E7%BB%84-%E9%93%BE%E8%A1%A8"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 数组 链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 选择排序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E9%80%92%E5%BD%92"><span class="nav-number">3.</span> <span class="nav-text">3. 递归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E5%BF%AB%E6%8E%92"><span class="nav-number">4.</span> <span class="nav-text">4. 快排</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%95%A3%E5%88%97%E8%A1%A8"><span class="nav-number">5.</span> <span class="nav-text">5. 散列表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-BFS"><span class="nav-number">6.</span> <span class="nav-text">6.BFS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-Dijkstra"><span class="nav-number">7.</span> <span class="nav-text">7. Dijkstra</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-Greedy"><span class="nav-number">8.</span> <span class="nav-text">8. Greedy</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-DP"><span class="nav-number">9.</span> <span class="nav-text">9.DP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-K%E6%9C%80%E9%82%BB%E8%BF%91%E7%AE%97%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">10. K最邻近算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#11-next"><span class="nav-number">11.</span> <span class="nav-text">11.next</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zhang Zehai</p>
+  <div class="site-description" itemprop="description">会做饭的厨子</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhang Zehai</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

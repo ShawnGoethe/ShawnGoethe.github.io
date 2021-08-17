@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zehai.info","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Problem  Single Number好久没有刷题了，刚好遇到LeetCode，30天计划，打算强迫自己完成 Given a non-empty array of integers, every element appears twice except for one. Find that single one. Note: Your algorithm should have a line">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCodeWeek1">
+<meta property="og:url" content="http://zehai.info/2020/04/05/2020-04-05-LeetCodeWeek1/index.html">
+<meta property="og:site_name" content="Zehai&#39;blog">
+<meta property="og:description" content="Problem  Single Number好久没有刷题了，刚好遇到LeetCode，30天计划，打算强迫自己完成 Given a non-empty array of integers, every element appears twice except for one. Find that single one. Note: Your algorithm should have a line">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://zehai.info/2020/04/05/img/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMjAyL2ltYWdlMi5wbmc.jfif">
+<meta property="article:published_time" content="2020-04-05T14:32:05.000Z">
+<meta property="article:modified_time" content="2021-07-27T07:09:41.894Z">
+<meta property="article:author" content="Zhang Zehai">
+<meta property="article:tag" content="Easy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zehai.info/2020/04/05/img/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMjAyL2ltYWdlMi5wbmc.jfif">
+
+<link rel="canonical" href="http://zehai.info/2020/04/05/2020-04-05-LeetCodeWeek1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>LeetCodeWeek1 | Zehai'blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zehai'blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-network">
+
+    <a href="/cnetwork/" rel="section"><i class="fa fa-mobile fa-fw"></i>network</a>
+
+  </li>
+        <li class="menu-item menu-item-computeros">
+
+    <a href="/ComputerOS/" rel="section"><i class="fa fa-desktop fa-fw"></i>computerOs</a>
+
+  </li>
+        <li class="menu-item menu-item-interview">
+
+    <a href="/Interview/" rel="section"><i class="fa fa-user fa-fw"></i>interview</a>
+
+  </li>
+        <li class="menu-item menu-item-java">
+
+    <a href="/Java/" rel="section"><i class="fa fa-tasks fa-fw"></i>java</a>
+
+  </li>
+        <li class="menu-item menu-item-like">
+
+    <a href="/Like/" rel="section"><i class="fa fa-book fa-fw"></i>like</a>
+
+  </li>
+        <li class="menu-item menu-item-nodejs">
+
+    <a href="/Nodejs/" rel="section"><i class="fa fa-plane fa-fw"></i>nodejs</a>
+
+  </li>
+        <li class="menu-item menu-item-redis">
+
+    <a href="/Redis/" rel="section"><i class="fa fa-database fa-fw"></i>redis</a>
+
+  </li>
+        <li class="menu-item menu-item-structure">
+
+    <a href="/Structure/" rel="section"><i class="fa fa-table fa-fw"></i>structure</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://zehai.info/2020/04/05/2020-04-05-LeetCodeWeek1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Zhang Zehai">
+      <meta itemprop="description" content="会做饭的厨子">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai'blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LeetCodeWeek1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-05 22:32:05" itemprop="dateCreated datePublished" datetime="2020-04-05T22:32:05+08:00">2020-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-07-27 15:09:41" itemprop="dateModified" datetime="2021-07-27T15:09:41+08:00">2021-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Problem-Single-Number"><a href="#Problem-Single-Number" class="headerlink" title="Problem  Single Number"></a>Problem  Single Number</h1><p>好久没有刷题了，刚好遇到LeetCode，30天计划，打算强迫自己完成</p>
+<p>Given a <strong>non-empty</strong> array of integers, every element appears <em>twice</em> except for one. Find that single one.</p>
+<p><strong>Note:</strong></p>
+<p>Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,2,1]</span><br><span class="line">Output: 1</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [4,1,2,1,2]</span><br><span class="line">Output: 4</span><br></pre></td></tr></table></figure>
+<h1 id="Key"><a href="#Key" class="headerlink" title="Key"></a>Key</h1><p>思路</p>
+<ul>
+<li>第一个思路O(n^2)去做类似于冒泡遍历的办法</li>
+<li>借助Array.sort()可以迅速排序，然后O(n)的办法遍历得到结果</li>
+<li>（以上是自己的思路，以下为LeetCode代码思考）</li>
+<li><a href="## 异或">通过异或操作迅速比较</a></li>
+<li>通过 Arrays.stream(nums).reduce(0, (x, y) -&gt; x ^ y)来更快迭代每个元素</li>
+</ul>
+<h2 id="Array-steam"><a href="#Array-steam" class="headerlink" title="Array.steam()"></a>Array.steam()</h2><p>以下参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/a13662080711/article/details/84928181">CSDN</a></p>
+<p>Stream 不是集合元素，它不是数据结构并不保存数据，它是有关算法和计算的，它更像一个高级版本的 Iterator。原始版本的 Iterator，用户只能显式地一个一个遍历元素并对其执行某些操作；高级版本的 Stream，用户只要给出需要对其包含的元素执行什么操作，比如 “过滤掉长度大于 10 的字符串”、“获取每个字符串的首字母”等，Stream 会隐式地在内部进行遍历，做出相应的数据转换。</p>
+<p>Stream 就如同一个迭代器（Iterator），单向，不可往复，数据只能遍历一次，遍历过一次后即用尽了，就好比流水从面前流过，一去不复返。</p>
+<p>而和迭代器又不同的是，Stream 可以并行化操作，迭代器只能命令式地、串行化操作。顾名思义，当使用串行方式去遍历时，每个 item 读完后再读下一个 item。而使用并行去遍历时，数据会被分成多个段，其中每一个都在不同的线程中处理，然后将结果一起输出。Stream 的并行操作依赖于 Java7 中引入的 Fork/Join 框架（JSR166y）来拆分任务和加速处理过程</p>
+<p>简单说，对 Stream 的使用就是实现一个 filter-map-reduce 过程，产生一个最终结果，或者导致一个副作用（side effect）。</p>
+<p>（以下为个人理解）</p>
+<p>相对于Java中的Stream流，Java中也有，比如Array.reduce(),Array.foreach()等，通过回调函数的方式进行，</p>
+<h2 id="异或"><a href="#异或" class="headerlink" title="异或"></a>异或</h2><p>|=：两个二进制对应位都为0时，结果等于0，否则结果等于1；</p>
+<p>&amp;=：两个二进制的对应位都为1时，结果为1，否则结果等于0；</p>
+<p>^=：两个二进制的对应位相同，结果为0，否则结果为1。</p>
+<p>对于这道题来说，[2,2,1]</p>
+<p>第零次遍历：init res=0,题目要求找出出现一次的数，所以这个数肯定存在</p>
+<p>第一次遍历：res=2</p>
+<p>第二次遍历：res=0，因为res^=2（即res=res^2）</p>
+<p>第三次遍历：res=1结束遍历</p>
+<p><strong>综上：常用^= 以及&gt;&gt;位运算符，C级别的性能</strong></p>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><ul>
+<li>对于异或方法（0ms）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) &#123;</span><br><span class="line">            result ^= n;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自己的方法就不贴了。。==感觉好蠢==写了半天。</p>
+<h1 id="Problem-Move-Zeroes"><a href="#Problem-Move-Zeroes" class="headerlink" title="Problem  Move Zeroes"></a>Problem  Move Zeroes</h1><p>Given an array <code>nums</code>, write a function to move all <code>0</code>‘s to the end of it while maintaining the relative order of the non-zero elements.</p>
+<p><strong>Example:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [0,1,0,3,12]</span><br><span class="line">Output: [1,3,12,0,0]</span><br></pre></td></tr></table></figure>
+<p><strong>Note</strong>:</p>
+<ol>
+<li>You must do this <strong>in-place</strong> without making a copy of the array.</li>
+<li>Minimize the total number of operations.</li>
+</ol>
+<h1 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution"></a>Solution</h1><p>第一版：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">moveZeroes</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]==<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> j=i;j&lt;nums.length-<span class="number">1</span>;j++)&#123;</span><br><span class="line">                    nums[j]=nums[j+<span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line">                nums[nums.length-<span class="number">1</span>]=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>原本根据题目的意思，想法就是找到一个0，整体往前移动一位，一把梭，但写完发现，<strong>本身没有必要整体前移</strong>，因为我的判断是num[i]是不是为0，所以只需要将0的个数记录下来，非0的元素前移，最后补0就可以了</p>
+<p>第二版</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public void moveZeroes(int[] nums) &#123;</span><br><span class="line">         if (nums == null || nums.length == 0) return;        </span><br><span class="line"> </span><br><span class="line">        int insertPos = 0;</span><br><span class="line">        for (int num: nums) &#123;</span><br><span class="line">            if (num != 0) nums[insertPos++] = num;</span><br><span class="line">        &#125;        </span><br><span class="line"></span><br><span class="line">        while (insertPos &lt; nums.length) &#123;</span><br><span class="line">            nums[insertPos++] = 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Problem-Best-Time-to-Buy-and-Sell-Stock-II"><a href="#Problem-Best-Time-to-Buy-and-Sell-Stock-II" class="headerlink" title="Problem Best Time to Buy and Sell Stock II"></a>Problem Best Time to Buy and Sell Stock II</h1><p>Say you have an array for which the ith element is the price of a given stock on day i.</p>
+<p>Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).</p>
+<p>Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).</p>
+<p>Example 1:</p>
+<p>Input: [7,1,5,3,6,4]<br>Output: 7<br>Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.<br>             Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.<br>Example 2:</p>
+<p>Input: [1,2,3,4,5]<br>Output: 4<br>Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.<br>             Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are<br>             engaging multiple transactions at the same time. You must sell before buying again.<br>Example 3:</p>
+<p>Input: [7,6,4,3,1]<br>Output: 0<br>Explanation: In this case, no transaction is done, i.e. max profit = 0.</p>
+<h1 id="key"><a href="#key" class="headerlink" title="key"></a>key</h1><p>题目获取最大利润，本以为是通过动态规划DP来做，但是仔细一想，差值就能解决问题<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int maxProfit(int[] prices) &#123;</span><br><span class="line">        int res = 0;</span><br><span class="line">        for (int i = 0; i &lt; prices.length - 1; ++i) &#123;</span><br><span class="line">            if (prices[i] &lt; prices[i + 1]) &#123;</span><br><span class="line">                res += prices[i + 1] - prices[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="Problem-happy-Number"><a href="#Problem-happy-Number" class="headerlink" title="Problem happy Number"></a>Problem happy Number</h1><p>Write an algorithm to determine if a number is “happy”.</p>
+<p>A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.</p>
+<p><strong>Example:</strong> </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: 19</span><br><span class="line">Output: true</span><br><span class="line">Explanation: </span><br><span class="line">12 + 92 = 82</span><br><span class="line">82 + 22 = 68</span><br><span class="line">62 + 82 = 100</span><br><span class="line">12 + 02 + 02 = 1</span><br></pre></td></tr></table></figure>
+<h1 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution"></a>Solution</h1><p>第一版</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public boolean isHappy(int n) &#123;</span><br><span class="line">         int sum =0;</span><br><span class="line">        while (sum != 1) &#123;</span><br><span class="line">            if(sum!=0)&#123;</span><br><span class="line">                n=sum;sum=0;</span><br><span class="line">            &#125;</span><br><span class="line">            while (n &gt; 0) &#123;</span><br><span class="line">                int t = n % 10;</span><br><span class="line">                sum += t * t;</span><br><span class="line">                n /= 10;</span><br><span class="line">            &#125;</span><br><span class="line">            if(sum==0)return false;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实写完这个框架我就想起来了，可能在计算上存在死循环，就比如</p>
+<p><img src="../img/aHR0cHM6Ly9waWMubGVldGNvZGUtY24uY29tL0ZpZ3VyZXMvMjAyL2ltYWdlMi5wbmc.jfif" alt="在这里插入图片描述"></p>
+<p>如果这样的题目就进入了死循环，所以干脆直接通过hashset的方式进行过滤</p>
+<p>添加了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(set.contains(sum))&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    set.add(sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整体代码如下：</p>
+<p>Runtime: 5 ms, faster than 9.41% of Java online submissions for Happy Number.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isHappy</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    Set&lt;Integer&gt; set = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">    <span class="keyword">int</span> sum =<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (sum != <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(sum!=<span class="number">0</span>)&#123;</span><br><span class="line">            n=sum;sum=<span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> t = n % <span class="number">10</span>;</span><br><span class="line">            sum += t * t;</span><br><span class="line">            n /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(sum==<span class="number">0</span>)<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(set.contains(sum))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            set.add(sum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Easy/" rel="tag"># Easy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/22/2020-03-22-UniqueBinarySearchTrees/" rel="prev" title="UniqueBinarySearchTrees">
+      <i class="fa fa-chevron-left"></i> UniqueBinarySearchTrees
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/08/2020-04-08-LeetCodeWeek2/" rel="next" title="LeetCodeWeek2">
+      LeetCodeWeek2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Problem-Single-Number"><span class="nav-number">1.</span> <span class="nav-text">Problem  Single Number</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Key"><span class="nav-number">2.</span> <span class="nav-text">Key</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Array-steam"><span class="nav-number">2.1.</span> <span class="nav-text">Array.steam()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%88%96"><span class="nav-number">2.2.</span> <span class="nav-text">异或</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution"><span class="nav-number">3.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problem-Move-Zeroes"><span class="nav-number">4.</span> <span class="nav-text">Problem  Move Zeroes</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution-1"><span class="nav-number">5.</span> <span class="nav-text">Solution</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problem-Best-Time-to-Buy-and-Sell-Stock-II"><span class="nav-number">6.</span> <span class="nav-text">Problem Best Time to Buy and Sell Stock II</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#key"><span class="nav-number">7.</span> <span class="nav-text">key</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Problem-happy-Number"><span class="nav-number">8.</span> <span class="nav-text">Problem happy Number</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solution-2"><span class="nav-number">9.</span> <span class="nav-text">Solution</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Zhang Zehai</p>
+  <div class="site-description" itemprop="description">会做饭的厨子</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zhang Zehai</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'dark',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
