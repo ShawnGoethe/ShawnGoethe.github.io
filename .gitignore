@@ -3,7 +3,7 @@ Thumbs.db
 db.json
 *.log
 node_modules/
-.vscode/
-.deploy_git/
+.github
 public/
-
+.deploy*/
+_multiconfig.yml
