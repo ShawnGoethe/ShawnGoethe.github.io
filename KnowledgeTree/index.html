@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="[TOC] 数据结构队列队列有两种实现方式，一个是连续空间的数组（无需空间存指针，但是扩容只能整体复制到新的大数组，而且线性，基本首位相连使用），一种是链表形态（需要额外空间存指针，但扩容直接追加，以及增删元素不需要动其他元素） Java中队列分为阻塞和非阻塞两种，顾名思义，阻塞队列是一个一个顺序执行，非阻塞队列是并发的  非阻塞队列：ConcurrentLinkedQueue(无界线程安全)，采">
+<meta property="og:type" content="website">
+<meta property="og:title" content="KnowledgeTree">
+<meta property="og:url" content="http://example.com/KnowledgeTree/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="[TOC] 数据结构队列队列有两种实现方式，一个是连续空间的数组（无需空间存指针，但是扩容只能整体复制到新的大数组，而且线性，基本首位相连使用），一种是链表形态（需要额外空间存指针，但扩容直接追加，以及增删元素不需要动其他元素） Java中队列分为阻塞和非阻塞两种，顾名思义，阻塞队列是一个一个顺序执行，非阻塞队列是并发的  非阻塞队列：ConcurrentLinkedQueue(无界线程安全)，采">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-01-18T15:03:00.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.743Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/KnowledgeTree/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":true,"permalink":"http://example.com/KnowledgeTree/index.html","path":"KnowledgeTree/index.html","title":"KnowledgeTree"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>KnowledgeTree | Zehai's Blog
+</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%9F%E5%88%97"><span class="nav-number">1.1.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E5%90%88"><span class="nav-number">1.2.</span> <span class="nav-text">集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E8%A1%A8%E3%80%81%E6%95%B0%E7%BB%84"><span class="nav-number">1.3.</span> <span class="nav-text">链表、数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E3%80%81%E5%85%B3%E8%81%94%E6%95%B0%E7%BB%84"><span class="nav-number">1.4.</span> <span class="nav-text">字典、关联数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88"><span class="nav-number">1.5.</span> <span class="nav-text">栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91"><span class="nav-number">1.6.</span> <span class="nav-text">树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">1.6.1.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">1.6.2.</span> <span class="nav-text">完全二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">1.6.3.</span> <span class="nav-text">平衡二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%9F%A5%E6%89%BE%E6%A0%91BST"><span class="nav-number">1.6.4.</span> <span class="nav-text">二叉查找树BST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="nav-number">1.6.5.</span> <span class="nav-text">红黑树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#B%E7%B3%BB%E5%88%97%E6%A0%91"><span class="nav-number">1.6.6.</span> <span class="nav-text">B系列树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSM%E6%A0%91"><span class="nav-number">1.6.7.</span> <span class="nav-text">LSM树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BitSet"><span class="nav-number">1.7.</span> <span class="nav-text">BitSet</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">常用算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F-%E6%9F%A5%E6%89%BE"><span class="nav-number">2.1.</span> <span class="nav-text">排序+查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">布隆过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83"><span class="nav-number">2.3.</span> <span class="nav-text">字符串比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DFS-BFS"><span class="nav-number">2.4.</span> <span class="nav-text">DFS+BFS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%AA%E5%BF%83"><span class="nav-number">2.5.</span> <span class="nav-text">贪心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9E%E6%BA%AF"><span class="nav-number">2.6.</span> <span class="nav-text">回溯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%AA%E6%9E%9D"><span class="nav-number">2.7.</span> <span class="nav-text">剪枝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">2.8.</span> <span class="nav-text">动态规划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF"><span class="nav-number">2.9.</span> <span class="nav-text">朴素贝叶斯</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95"><span class="nav-number">2.10.</span> <span class="nav-text">推荐算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-number">2.11.</span> <span class="nav-text">最小生成树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95"><span class="nav-number">2.12.</span> <span class="nav-text">最短路径算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">并发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">3.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">3.3.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-number">3.4.</span> <span class="nav-text">事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81"><span class="nav-number">3.5.</span> <span class="nav-text">锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU"><span class="nav-number">4.2.</span> <span class="nav-text">CPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B"><span class="nav-number">4.3.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B"><span class="nav-number">4.4.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">4.5.</span> <span class="nav-text">协程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1"><span class="nav-number">4.6.</span> <span class="nav-text">通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">4.7.</span> <span class="nav-text">Linux</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="nav-number">5.1.</span> <span class="nav-text">六大原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#23%E7%A7%8D%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.2.</span> <span class="nav-text">23种常见设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">5.3.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.4.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.5.</span> <span class="nav-text">责任链模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVC"><span class="nav-number">5.6.</span> <span class="nav-text">MVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC"><span class="nav-number">5.7.</span> <span class="nav-text">IOC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">5.8.</span> <span class="nav-text">AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UML"><span class="nav-number">5.9.</span> <span class="nav-text">UML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">5.10.</span> <span class="nav-text">微服务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%90%E7%BB%B4"><span class="nav-number">6.</span> <span class="nav-text">运维</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E6%8E%A7"><span class="nav-number">6.1.</span> <span class="nav-text">监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#APM"><span class="nav-number">6.2.</span> <span class="nav-text">APM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90"><span class="nav-number">6.3.</span> <span class="nav-text">统计分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E7%BB%A7%E6%89%BFCI-CD"><span class="nav-number">6.4.</span> <span class="nav-text">持续继承CI&#x2F;CD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jenkins"><span class="nav-number">6.4.1.</span> <span class="nav-text">Jenkins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%88%86%E7%A6%BB"><span class="nav-number">6.4.2.</span> <span class="nav-text">环境分离</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4"><span class="nav-number">6.5.</span> <span class="nav-text">自动化运维</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ansible"><span class="nav-number">6.5.1.</span> <span class="nav-text">Ansible</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#puppet"><span class="nav-number">6.5.2.</span> <span class="nav-text">puppet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chef"><span class="nav-number">6.5.3.</span> <span class="nav-text">chef</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">6.6.</span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TDD%E7%90%86%E8%AE%BA"><span class="nav-number">6.6.1.</span> <span class="nav-text">TDD理论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">6.6.2.</span> <span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95"><span class="nav-number">6.6.3.</span> <span class="nav-text">压力测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E9%93%BE%E8%B7%AF%E5%8E%8B%E6%B5%8B"><span class="nav-number">6.6.4.</span> <span class="nav-text">全链路压测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A-B%E3%80%81%E7%81%B0%E5%BA%A6%E3%80%81%E8%93%9D%E7%BB%BF%E6%B5%8B%E8%AF%95"><span class="nav-number">6.6.5.</span> <span class="nav-text">A&#x2F;B、灰度、蓝绿测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KVM"><span class="nav-number">6.6.6.</span> <span class="nav-text">KVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xen"><span class="nav-number">6.6.7.</span> <span class="nav-text">Xen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenVZ"><span class="nav-number">6.6.8.</span> <span class="nav-text">OpenVZ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%8C%96"><span class="nav-number">6.7.</span> <span class="nav-text">容器化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker"><span class="nav-number">6.7.1.</span> <span class="nav-text">Docker</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%91%E6%8A%80%E6%9C%AF"><span class="nav-number">6.8.</span> <span class="nav-text">云技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Openstack"><span class="nav-number">6.8.1.</span> <span class="nav-text">Openstack</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DevOps"><span class="nav-number">6.9.</span> <span class="nav-text">DevOps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86"><span class="nav-number">6.10.</span> <span class="nav-text">文档管理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-Server"><span class="nav-number">7.1.</span> <span class="nav-text">Web Server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx"><span class="nav-number">7.1.1.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenResty"><span class="nav-number">7.1.2.</span> <span class="nav-text">OpenResty</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tengine"><span class="nav-number">7.1.3.</span> <span class="nav-text">Tengine</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache-Httpd"><span class="nav-number">7.1.4.</span> <span class="nav-text">Apache Httpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat"><span class="nav-number">7.1.5.</span> <span class="nav-text">Tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jetty"><span class="nav-number">7.1.6.</span> <span class="nav-text">Jetty</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">7.2.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98"><span class="nav-number">7.2.1.</span> <span class="nav-text">本地缓存</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%BC%93%E5%AD%98"><span class="nav-number">7.3.</span> <span class="nav-text">客户端缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%BC%93%E5%AD%98"><span class="nav-number">7.4.</span> <span class="nav-text">服务端缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Web%E7%BC%93%E5%AD%98"><span class="nav-number">7.4.1.</span> <span class="nav-text">Web缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Memcached"><span class="nav-number">7.4.2.</span> <span class="nav-text">Memcached</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis"><span class="nav-number">7.4.3.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84"><span class="nav-number">7.4.3.1.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E6%94%B6%E7%AD%96%E7%95%A5"><span class="nav-number">7.4.3.2.</span> <span class="nav-text">回收策略</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tair"><span class="nav-number">7.4.4.</span> <span class="nav-text">Tair</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">7.5.</span> <span class="nav-text">消息队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF"><span class="nav-number">7.5.1.</span> <span class="nav-text">消息总线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%A1%BA%E5%BA%8F"><span class="nav-number">7.5.2.</span> <span class="nav-text">消息顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RabbitMQ"><span class="nav-number">7.5.3.</span> <span class="nav-text">RabbitMQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RocketMQ"><span class="nav-number">7.5.4.</span> <span class="nav-text">RocketMQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ActiveMQ"><span class="nav-number">7.5.5.</span> <span class="nav-text">ActiveMQ</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka"><span class="nav-number">7.5.6.</span> <span class="nav-text">Kafka</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis-1"><span class="nav-number">7.5.7.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZeroMQ"><span class="nav-number">7.5.8.</span> <span class="nav-text">ZeroMQ</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E8%B0%83%E5%BA%A6"><span class="nav-number">7.6.</span> <span class="nav-text">定时调度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E6%9C%BA%E5%AE%9A%E6%97%B6%E8%B0%83%E5%BA%A6"><span class="nav-number">7.6.1.</span> <span class="nav-text">单机定时调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%AE%9A%E6%97%B6%E8%B0%83%E5%BA%A6"><span class="nav-number">7.6.2.</span> <span class="nav-text">分布式定时调度</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC"><span class="nav-number">7.7.</span> <span class="nav-text">RPC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo"><span class="nav-number">7.7.1.</span> <span class="nav-text">Dubbo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thrift"><span class="nav-number">7.7.2.</span> <span class="nav-text">Thrift</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gRPC"><span class="nav-number">7.7.3.</span> <span class="nav-text">gRPC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">7.8.</span> <span class="nav-text">数据中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sharding-Jdbc"><span class="nav-number">7.8.1.</span> <span class="nav-text">Sharding Jdbc</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F"><span class="nav-number">7.9.</span> <span class="nav-text">日志系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%90%9C%E9%9B%86"><span class="nav-number">7.9.1.</span> <span class="nav-text">日志搜集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83"><span class="nav-number">7.10.</span> <span class="nav-text">配置中心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API%E7%BD%91%E5%85%B3"><span class="nav-number">7.11.</span> <span class="nav-text">API网关</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C"><span class="nav-number">8.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AEOSI"><span class="nav-number">8.1.</span> <span class="nav-text">协议OSI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TCPIP"><span class="nav-number">8.1.1.</span> <span class="nav-text">TCPIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP"><span class="nav-number">8.1.2.</span> <span class="nav-text">HTTP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP2"><span class="nav-number">8.1.3.</span> <span class="nav-text">HTTP2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS"><span class="nav-number">8.1.4.</span> <span class="nav-text">HTTPS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">8.2.</span> <span class="nav-text">网络模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Epoll"><span class="nav-number">8.2.1.</span> <span class="nav-text">Epoll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-NIO"><span class="nav-number">8.2.2.</span> <span class="nav-text">Java NIO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kqueue"><span class="nav-number">8.2.3.</span> <span class="nav-text">Kqueue</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%9F%AD%E8%BF%9E%E6%8E%A5"><span class="nav-number">8.3.</span> <span class="nav-text">连接和短连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6"><span class="nav-number">8.4.</span> <span class="nav-text">框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B6%E6%8B%B7%E8%B4%9D"><span class="nav-number">8.5.</span> <span class="nav-text">零拷贝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">8.6.</span> <span class="nav-text">序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hessian"><span class="nav-number">8.6.1.</span> <span class="nav-text">Hessian</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#protobuf"><span class="nav-number">8.6.2.</span> <span class="nav-text">protobuf</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">9.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E"><span class="nav-number">10.</span> <span class="nav-text">搜索引擎</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%A7%E8%83%BD"><span class="nav-number">11.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE"><span class="nav-number">12.</span> <span class="nav-text">大数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-number">13.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6"><span class="nav-number">14.</span> <span class="nav-text">常用开源框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="nav-number">15.</span> <span class="nav-text">分布式设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3-%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="nav-number">16.</span> <span class="nav-text">设计思想+开发模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86"><span class="nav-number">17.</span> <span class="nav-text">项目管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E4%B8%9A%E5%8A%A1%E6%9C%AF%E8%AF%AD"><span class="nav-number">18.</span> <span class="nav-text">通用业务术语</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E8%B6%8B%E5%8A%BF"><span class="nav-number">19.</span> <span class="nav-text">技术趋势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%BF%E7%AD%96%E6%B3%95%E8%A7%84"><span class="nav-number">20.</span> <span class="nav-text">政策法规</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%B8%88%E7%B4%A0%E8%B4%A8"><span class="nav-number">21.</span> <span class="nav-text">架构师素质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%A2%E9%98%9F%E7%AE%A1%E7%90%86"><span class="nav-number">22.</span> <span class="nav-text">团队管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%84%E8%AE%AF"><span class="nav-number">23.</span> <span class="nav-text">资讯</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E8%B5%84%E6%BA%90"><span class="nav-number">24.</span> <span class="nav-text">技术资源</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner page posts-expand">
+
+
+    
+    
+    
+    <div class="post-block" lang="en"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">KnowledgeTree
+</h1>
+
+<div class="post-meta-container">
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <p>[TOC]</p>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>队列有两种实现方式，一个是连续空间的数组（无需空间存指针，但是扩容只能整体复制到新的大数组，而且线性，基本首位相连使用），一种是链表形态（需要额外空间存指针，但扩容直接追加，以及增删元素不需要动其他元素）</p>
+<p>Java中队列分为阻塞和非阻塞两种，顾名思义，阻塞队列是一个一个顺序执行，非阻塞队列是并发的</p>
+<ul>
+<li>非阻塞队列：ConcurrentLinkedQueue(无界线程安全)，采用CAS机制（compareAndSwapObject原子操作）。</li>
+<li>阻塞队列：ArrayBlockingQueue(有界)、LinkedBlockingQueue（无界）、DelayQueue、PriorityBlockingQueue，采用锁机制；使用 ReentrantLock 锁。</li>
+</ul>
+<p>阻塞队列的DelayQueue可以做成延时队列，可以见这篇文章→:<a target="_blank" rel="noopener" href="http://zehai.info/2020/01/07/2020-01-07-%E5%85%B3%E4%BA%8EPromise%E7%9A%84%E6%80%9D%E8%80%83/"><strong>关于Promise的思考</strong></a>，原本Node需要借助Promise循环一次只取一个特性的延时队列，可以使用delayQueue直接求解</p>
+<p>队列除了<strong>数组，链表的区别</strong>，<strong>阻塞</strong> 分类，还可以<strong>安全</strong>区分，简单来说就是多线程下并发读写是否会出问题。</p>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>Set:注重独一无二的性质,该体系集合可以知道某物是否已近存在于集合中,不会存储重复的元素</p>
+<p>hashset</p>
+<p>hashtable</p>
+<p>treeset</p>
+<h2 id="链表、数组"><a href="#链表、数组" class="headerlink" title="链表、数组"></a>链表、数组</h2><p>链表List数组Array其实和队列queue是一种东西，只是队列（或者堆栈）是特殊化的链表&#x2F;数组，他们限制了元素的进出方式，解决了顺序处理&#x2F;递归压栈的问题。</p>
+<p><strong>不过链表，数组区别于set，前者是有序的，set是无序不重复的</strong></p>
+<p>List主要分为3类，ArrayList， LinkedList和Vector，都继承自Collection，只是各自有自己的特性的方法</p>
+<ul>
+<li><p>ArrayList是一个数组实现的列表，由于数据是存入数组中的，所以它的特点也和数组一样，查询很快，但是中间部分的插入和删除很慢</p>
+</li>
+<li><p>LinkedList还是一个双向链表</p>
+</li>
+<li><p>Vector就是ArrayList的线程安全版，它的方法前都加了synchronized锁，其他实现逻辑都相同。如果对线程安全要求不高的话，可以选择ArrayList，毕竟synchronized也很耗性能</p>
+</li>
+</ul>
+<h2 id="字典、关联数组"><a href="#字典、关联数组" class="headerlink" title="字典、关联数组"></a>字典、关联数组</h2><h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><p>树结构是<strong>一对多</strong>的数据结构</p>
+<p>他的应用包括：红黑树，数据库存储，磁盘文件存储等</p>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><p>每个节点最多有两个叶子节点</p>
+<h3 id="完全二叉树"><a href="#完全二叉树" class="headerlink" title="完全二叉树"></a>完全二叉树</h3><h3 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h3><h3 id="二叉查找树BST"><a href="#二叉查找树BST" class="headerlink" title="二叉查找树BST"></a>二叉查找树BST</h3><h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><h3 id="B系列树"><a href="#B系列树" class="headerlink" title="B系列树"></a>B系列树</h3><p>B-树是一种多路搜索树</p>
+<ul>
+<li>关键字集合分布在整颗树中；</li>
+<li>任何一个关键字出现且只出现在一个结点中；</li>
+<li>搜索有可能在非叶子结点结束；</li>
+<li>其搜索性能等价于在关键字全集内做一次二分查找；</li>
+<li>自动层次控制</li>
+</ul>
+<p>B+ 树是一种树数据结构，是一个n叉树，每个节点通常有多个孩子，一棵B+树包含根节点、内部节点和叶子节点。根节点可能是一个叶子节点，也可能是一个包含两个或两个以上孩子节点的节点</p>
+<ul>
+<li>B+ 树通常用于<a target="_blank" rel="noopener" href="http://lib.csdn.net/base/14">数据库</a>和操作系统的文件系统中</li>
+</ul>
+<p>B* 树</p>
+<ul>
+<li>是B+树的变体，在B+树的非根和非叶子结点再增加指向兄弟的指针；</li>
+</ul>
+<h3 id="LSM树"><a href="#LSM树" class="headerlink" title="LSM树"></a>LSM树</h3><p>LSM（Log-Structured Merge-Trees）和 B+ 树相比，是牺牲了部分读的性能来换取写的性能(通过批量写入)，实现读写之间的平衡。 Hbase、LevelDB、Tair（Long DB）、nessDB 采用 LSM 树的结构。LSM可以快速建立索引。</p>
+<ul>
+<li>B+ 树读性能好，但由于需要有序结构，当key比较分散时，磁盘寻道频繁，造成写性能较差。</li>
+<li>LSM 是将一个大树拆分成N棵小树，先写到内存（无寻道问题，性能高），在内存中构建一颗有序小树（有序树），随着小树越来越大，内存的小树会flush到磁盘上。当读时，由于不知道数据在哪棵小树上，因此必须遍历（二分查找）所有的小树，但在每颗小树内部数据是有序的。</li>
+<li>极端的说，基于LSM树实现的HBase的写性能比MySQL高了一个数量级，读性能低了一个数量级。</li>
+<li>优化方式：Bloom filter 替代二分查找；compact 小数位大树，提高查询性能。</li>
+<li>Hbase 中，内存中达到一定阈值后，整体flush到磁盘上、形成一个文件（B+数），HDFS不支持update操作，所以Hbase做整体flush而不是merge update。flush到磁盘上的小树，定期会合并成一个大树。</li>
+</ul>
+<h2 id="BitSet"><a href="#BitSet" class="headerlink" title="BitSet"></a>BitSet</h2><h1 id="常用算法"><a href="#常用算法" class="headerlink" title="常用算法"></a>常用算法</h1><h2 id="排序-查找"><a href="#排序-查找" class="headerlink" title="排序+查找"></a>排序+查找</h2><h2 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h2><h2 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h2><h2 id="DFS-BFS"><a href="#DFS-BFS" class="headerlink" title="DFS+BFS"></a>DFS+BFS</h2><h2 id="贪心"><a href="#贪心" class="headerlink" title="贪心"></a>贪心</h2><h2 id="回溯"><a href="#回溯" class="headerlink" title="回溯"></a>回溯</h2><h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><h2 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h2><h2 id="推荐算法"><a href="#推荐算法" class="headerlink" title="推荐算法"></a>推荐算法</h2><p>推荐算法通常被分为四大类</p>
+<ul>
+<li>协同过滤推荐算法</li>
+<li>基于内容的推荐算法</li>
+<li>混合推荐算法</li>
+<li>流行度推荐算法</li>
+</ul>
+<h2 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h2><h2 id="最短路径算法"><a href="#最短路径算法" class="headerlink" title="最短路径算法"></a>最短路径算法</h2><h1 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h2 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h2><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><h2 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h2><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><h2 id="六大原则"><a href="#六大原则" class="headerlink" title="六大原则"></a>六大原则</h2><ul>
+<li>开闭原则：对扩展开放,对修改关闭，多使用抽象类和接口。</li>
+<li>里氏替换原则：基类可以被子类替换，使用抽象类继承,不使用具体类继承。</li>
+<li>依赖倒转原则：要依赖于抽象,不要依赖于具体，针对接口编程,不针对实现编程。</li>
+<li>接口隔离原则：使用多个隔离的接口,比使用单个接口好，建立最小的接口。</li>
+<li>迪米特法则：一个软件实体应当尽可能少地与其他实体发生相互作用，通过中间类建立联系。</li>
+<li>合成复用原则：尽量使用合成&#x2F;聚合,而不是使用继承。</li>
+</ul>
+<h2 id="23种常见设计模式"><a href="#23种常见设计模式" class="headerlink" title="23种常见设计模式"></a>23种常见设计模式</h2><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>单例模式：单例模式的意思就是只有一个实例。单例模式确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。这个类称为单例类。</p>
+<p>单例模式有三种：</p>
+<ul>
+<li><p>懒汉式单例：第一次调用初始化，但初始化时需加锁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton singleton;</span><br><span class="line">    <span class="keyword">private</span> Singleton &#123;&#125;;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Sigleton getInstance&#123;</span><br><span class="line">        <span class="keyword">if</span>(singleton ==<span class="literal">null</span>)&#123;</span><br><span class="line">            singleton=<span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        retrun singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>饿汉式单例:类加载初始化，后续一直存在，浪费内存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton&#123;</span><br><span class="line">    private static final Singleton SINGLETON=new Singleton();</span><br><span class="line">    private Signleton()&#123;    &#125;</span><br><span class="line">    public static Signleton getInstance()&#123;</span><br><span class="line">        retrun SINGLETON;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>登记式单例:内部类在外部调用加载，无需用锁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton&#123;</span><br><span class="line">    private Sigleton()&#123;&#125;</span><br><span class="line">    public static Singleton getInstance()&#123;</span><br><span class="line">        retrun Holder.SINGLETON;</span><br><span class="line">    &#125;</span><br><span class="line">    private static class Holder&#123;</span><br><span class="line">        private static final Singleton SINGLETON=new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h2><h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><h2 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h2><h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><h2 id="UML"><a href="#UML" class="headerlink" title="UML"></a>UML</h2><h2 id="微服务"><a href="#微服务" class="headerlink" title="微服务"></a>微服务</h2><h1 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h1><h2 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h2><h2 id="APM"><a href="#APM" class="headerlink" title="APM"></a>APM</h2><h2 id="统计分析"><a href="#统计分析" class="headerlink" title="统计分析"></a>统计分析</h2><h2 id="持续继承CI-CD"><a href="#持续继承CI-CD" class="headerlink" title="持续继承CI&#x2F;CD"></a>持续继承CI&#x2F;CD</h2><h3 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h3><h3 id="环境分离"><a href="#环境分离" class="headerlink" title="环境分离"></a>环境分离</h3><h2 id="自动化运维"><a href="#自动化运维" class="headerlink" title="自动化运维"></a>自动化运维</h2><h3 id="Ansible"><a href="#Ansible" class="headerlink" title="Ansible"></a>Ansible</h3><h3 id="puppet"><a href="#puppet" class="headerlink" title="puppet"></a>puppet</h3><h3 id="chef"><a href="#chef" class="headerlink" title="chef"></a>chef</h3><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="TDD理论"><a href="#TDD理论" class="headerlink" title="TDD理论"></a>TDD理论</h3><h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><h3 id="压力测试"><a href="#压力测试" class="headerlink" title="压力测试"></a>压力测试</h3><h3 id="全链路压测"><a href="#全链路压测" class="headerlink" title="全链路压测"></a>全链路压测</h3><h3 id="A-B、灰度、蓝绿测试"><a href="#A-B、灰度、蓝绿测试" class="headerlink" title="A&#x2F;B、灰度、蓝绿测试"></a>A&#x2F;B、灰度、蓝绿测试</h3><p>##虚拟化</p>
+<h3 id="KVM"><a href="#KVM" class="headerlink" title="KVM"></a>KVM</h3><h3 id="Xen"><a href="#Xen" class="headerlink" title="Xen"></a>Xen</h3><h3 id="OpenVZ"><a href="#OpenVZ" class="headerlink" title="OpenVZ"></a>OpenVZ</h3><h2 id="容器化"><a href="#容器化" class="headerlink" title="容器化"></a>容器化</h2><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><h2 id="云技术"><a href="#云技术" class="headerlink" title="云技术"></a>云技术</h2><h3 id="Openstack"><a href="#Openstack" class="headerlink" title="Openstack"></a>Openstack</h3><h2 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h2><h2 id="文档管理"><a href="#文档管理" class="headerlink" title="文档管理"></a>文档管理</h2><h1 id="中间件"><a href="#中间件" class="headerlink" title="中间件"></a>中间件</h1><h2 id="Web-Server"><a href="#Web-Server" class="headerlink" title="Web Server"></a>Web Server</h2><h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><h3 id="OpenResty"><a href="#OpenResty" class="headerlink" title="OpenResty"></a>OpenResty</h3><h3 id="Tengine"><a href="#Tengine" class="headerlink" title="Tengine"></a>Tengine</h3><h3 id="Apache-Httpd"><a href="#Apache-Httpd" class="headerlink" title="Apache Httpd"></a>Apache Httpd</h3><h3 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h3><h3 id="Jetty"><a href="#Jetty" class="headerlink" title="Jetty"></a>Jetty</h3><h2 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h2><h3 id="本地缓存"><a href="#本地缓存" class="headerlink" title="本地缓存"></a>本地缓存</h3><h2 id="客户端缓存"><a href="#客户端缓存" class="headerlink" title="客户端缓存"></a>客户端缓存</h2><h2 id="服务端缓存"><a href="#服务端缓存" class="headerlink" title="服务端缓存"></a>服务端缓存</h2><h3 id="Web缓存"><a href="#Web缓存" class="headerlink" title="Web缓存"></a>Web缓存</h3><h3 id="Memcached"><a href="#Memcached" class="headerlink" title="Memcached"></a>Memcached</h3><h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><h4 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h4><h4 id="回收策略"><a href="#回收策略" class="headerlink" title="回收策略"></a>回收策略</h4><h3 id="Tair"><a href="#Tair" class="headerlink" title="Tair"></a>Tair</h3><h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><h3 id="消息总线"><a href="#消息总线" class="headerlink" title="消息总线"></a>消息总线</h3><h3 id="消息顺序"><a href="#消息顺序" class="headerlink" title="消息顺序"></a>消息顺序</h3><h3 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h3><h3 id="RocketMQ"><a href="#RocketMQ" class="headerlink" title="RocketMQ"></a>RocketMQ</h3><h3 id="ActiveMQ"><a href="#ActiveMQ" class="headerlink" title="ActiveMQ"></a>ActiveMQ</h3><h3 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h3><h3 id="Redis-1"><a href="#Redis-1" class="headerlink" title="Redis"></a>Redis</h3><h3 id="ZeroMQ"><a href="#ZeroMQ" class="headerlink" title="ZeroMQ"></a>ZeroMQ</h3><h2 id="定时调度"><a href="#定时调度" class="headerlink" title="定时调度"></a>定时调度</h2><h3 id="单机定时调度"><a href="#单机定时调度" class="headerlink" title="单机定时调度"></a>单机定时调度</h3><h3 id="分布式定时调度"><a href="#分布式定时调度" class="headerlink" title="分布式定时调度"></a>分布式定时调度</h3><h2 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h2><p>RPC &#x3D; Remote Procedure Call</p>
+<p>目的：调用远程服务接口如同调用本地（方便本地开发，及服务间调用）</p>
+<p>构成：server，client，registry（Redis,zookeeper,consul,more）</p>
+<p>技术：动态代理（CgLib,Javasisit），序列化，NIO（Netty），注册中心</p>
+<p>流程：</p>
+<ul>
+<li><p>clent调用本地方法</p>
+</li>
+<li><p>client stub，封装成为网络传输消息体</p>
+</li>
+<li><p>client stub 从registry获取地址发送</p>
+</li>
+<li><p>server解码，调用本地方法，返回到server stub</p>
+</li>
+<li><p>server stub 结果打包返回给client</p>
+</li>
+<li><p>client解码，获取结果</p>
+</li>
+</ul>
+<p>优秀框架：</p>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>简介</th>
+<th>开发语言</th>
+<th></th>
+<th>分布式</th>
+<th>多序列化框架支持</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dubbo</td>
+<td>阿里，Java高性能优秀的服务框架</td>
+<td>java</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>Motan</td>
+<td>微博，Java框架</td>
+<td>java</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>rpcx</td>
+<td>Go</td>
+<td>go</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>gRPC</td>
+<td>Google，基于protoBuf序列化，不是分布式</td>
+<td>多语言</td>
+<td></td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>thrift</td>
+<td>Apache，跨语言</td>
+<td>多语言</td>
+<td></td>
+<td>×</td>
+<td>×</td>
+</tr>
+</tbody></table>
+<h3 id="Dubbo"><a href="#Dubbo" class="headerlink" title="Dubbo"></a>Dubbo</h3><h3 id="Thrift"><a href="#Thrift" class="headerlink" title="Thrift"></a>Thrift</h3><h3 id="gRPC"><a href="#gRPC" class="headerlink" title="gRPC"></a>gRPC</h3><h2 id="数据中间件"><a href="#数据中间件" class="headerlink" title="数据中间件"></a>数据中间件</h2><h3 id="Sharding-Jdbc"><a href="#Sharding-Jdbc" class="headerlink" title="Sharding Jdbc"></a>Sharding Jdbc</h3><h2 id="日志系统"><a href="#日志系统" class="headerlink" title="日志系统"></a>日志系统</h2><h3 id="日志搜集"><a href="#日志搜集" class="headerlink" title="日志搜集"></a>日志搜集</h3><h2 id="配置中心"><a href="#配置中心" class="headerlink" title="配置中心"></a>配置中心</h2><h2 id="API网关"><a href="#API网关" class="headerlink" title="API网关"></a>API网关</h2><h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="协议OSI"><a href="#协议OSI" class="headerlink" title="协议OSI"></a>协议OSI</h2><h3 id="TCPIP"><a href="#TCPIP" class="headerlink" title="TCPIP"></a>TCPIP</h3><h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3><h3 id="HTTP2"><a href="#HTTP2" class="headerlink" title="HTTP2"></a>HTTP2</h3><h3 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h3><h2 id="网络模型"><a href="#网络模型" class="headerlink" title="网络模型"></a>网络模型</h2><h3 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h3><h3 id="Java-NIO"><a href="#Java-NIO" class="headerlink" title="Java NIO"></a>Java NIO</h3><h3 id="Kqueue"><a href="#Kqueue" class="headerlink" title="Kqueue"></a>Kqueue</h3><h2 id="连接和短连接"><a href="#连接和短连接" class="headerlink" title="连接和短连接"></a>连接和短连接</h2><h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><h2 id="零拷贝"><a href="#零拷贝" class="headerlink" title="零拷贝"></a>零拷贝</h2><h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>序列化是二进制协议</p>
+<p>Hessian</p>
+<p>Protobuf</p>
+<h3 id="Hessian"><a href="#Hessian" class="headerlink" title="Hessian"></a>Hessian</h3><h3 id="protobuf"><a href="#protobuf" class="headerlink" title="protobuf"></a>protobuf</h3><h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h1 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h1><h1 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h1><h1 id="大数据"><a href="#大数据" class="headerlink" title="大数据"></a>大数据</h1><h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><h1 id="常用开源框架"><a href="#常用开源框架" class="headerlink" title="常用开源框架"></a>常用开源框架</h1><h1 id="分布式设计"><a href="#分布式设计" class="headerlink" title="分布式设计"></a>分布式设计</h1><h1 id="设计思想-开发模式"><a href="#设计思想-开发模式" class="headerlink" title="设计思想+开发模式"></a>设计思想+开发模式</h1><h1 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h1><h1 id="通用业务术语"><a href="#通用业务术语" class="headerlink" title="通用业务术语"></a>通用业务术语</h1><h1 id="技术趋势"><a href="#技术趋势" class="headerlink" title="技术趋势"></a>技术趋势</h1><h1 id="政策法规"><a href="#政策法规" class="headerlink" title="政策法规"></a>政策法规</h1><h1 id="架构师素质"><a href="#架构师素质" class="headerlink" title="架构师素质"></a>架构师素质</h1><h1 id="团队管理"><a href="#团队管理" class="headerlink" title="团队管理"></a>团队管理</h1><h1 id="资讯"><a href="#资讯" class="headerlink" title="资讯"></a>资讯</h1><h1 id="技术资源"><a href="#技术资源" class="headerlink" title="技术资源"></a>技术资源</h1>
+      </div>
+      
+      
+      
+    </div>
+
+    
+    
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

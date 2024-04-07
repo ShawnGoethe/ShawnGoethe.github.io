@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Whateventloop使得单线程机制的node实现非阻塞I&#x2F;O的机制，将任务通过libuv分发给线程池后，交由系统内核完成（多线程），完成后内核通知nodejs，将回调放入poll队列执行 启动nodejs时，eventloop初始化，进程会输入很多script，包括：  async API calls 定时器 process.nextTick()   eventloop有六个队列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="node整理">
+<meta property="og:url" content="http://example.com/2020/04/10/2020-04-10-eventloop/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="Whateventloop使得单线程机制的node实现非阻塞I&#x2F;O的机制，将任务通过libuv分发给线程池后，交由系统内核完成（多线程），完成后内核通知nodejs，将回调放入poll队列执行 启动nodejs时，eventloop初始化，进程会输入很多script，包括：  async API calls 定时器 process.nextTick()   eventloop有六个队列">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/phaseOfEventloop-1586590365657.png">
+<meta property="article:published_time" content="2020-04-10T08:44:26.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.765Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="整理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/phaseOfEventloop-1586590365657.png">
+
+
+<link rel="canonical" href="http://example.com/2020/04/10/2020-04-10-eventloop/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2020/04/10/2020-04-10-eventloop/","path":"2020/04/10/2020-04-10-eventloop/","title":"node整理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>node整理 | Zehai's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Detail"><span class="nav-number">2.</span> <span class="nav-text">Detail</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Timers"><span class="nav-number">2.1.</span> <span class="nav-text">Timers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pending-callbacks"><span class="nav-number">2.2.</span> <span class="nav-text">pending callbacks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#poll"><span class="nav-number">2.3.</span> <span class="nav-text">poll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check"><span class="nav-number">2.4.</span> <span class="nav-text">check</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#close-callbacks"><span class="nav-number">2.5.</span> <span class="nav-text">close callbacks</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#setImmedate-vs-setTimeout"><span class="nav-number">3.</span> <span class="nav-text">setImmedate() vs setTimeout()</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#process-nextTick"><span class="nav-number">3.1.</span> <span class="nav-text">process.nextTick()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#process-nextTick-vs-setImmediate"><span class="nav-number">3.1.1.</span> <span class="nav-text">process.nextTick() vs setImmediate()</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/04/10/2020-04-10-eventloop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="node整理 | Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          node整理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-04-10 16:44:26" itemprop="dateCreated datePublished" datetime="2020-04-10T16:44:26+08:00">2020-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-04-07 22:34:12" itemprop="dateModified" datetime="2024-04-07T22:34:12+08:00">2024-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Node/" itemprop="url" rel="index"><span itemprop="name">Node</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>eventloop使得单线程机制的node实现非阻塞I&#x2F;O的机制，将任务通过libuv分发给线程池后，交由系统内核完成（多线程），完成后内核通知nodejs，将回调放入<code>poll</code>队列执行</p>
+<p>启动nodejs时，eventloop初始化，进程会输入很多script，包括：</p>
+<ul>
+<li>async API calls</li>
+<li>定时器</li>
+<li>process.nextTick()</li>
+</ul>
+<p><img src="/../img/phaseOfEventloop-1586590365657.png"></p>
+<p>eventloop有六个队列</p>
+<ul>
+<li>timers</li>
+<li>pending callbacks</li>
+<li>idle,prepare</li>
+<li>poll(connections,data,etc)</li>
+<li>check</li>
+<li>close callbacks</li>
+</ul>
+<p>这些队列被称作phase,每个phase都是一个可以放callback的FIFO队列，当进入一个phase时，队列将执行完phase中的callback或者执行最大数目的callback后将进入另一个phase</p>
+<ul>
+<li>timers：执行定时器，包括setTimeout，setInerval</li>
+<li>pending callbacks 执行延迟到下一个循环的I&#x2F;O callback</li>
+<li>idle，prepare 处理系统内部</li>
+<li>poll：检查新的I&#x2F;O事件，执行I&#x2F;O回调,node会适当的在此阻塞</li>
+<li>check:setImmediate()</li>
+<li>close：关闭回调函数，如：socket.on(‘close’,foo())</li>
+</ul>
+<h1 id="Detail"><a href="#Detail" class="headerlink" title="Detail"></a>Detail</h1><h2 id="Timers"><a href="#Timers" class="headerlink" title="Timers"></a>Timers</h2><p>设定延迟后，timers会在规定的时间执行，但存在情况延迟，如<code>poll</code> phase执行回调，超过了timer设定的时间。因为poll必须完成一个任务后才可以检查最近的定时器，没到时间就执行下一个callback，执行callback期间无法中断</p>
+<blockquote>
+<p>可以得出结论：<code>poll</code>控制着定时器何时执行</p>
+</blockquote>
+<p>另外为了防止poll phase 变成恶汉，libuv 制定了一个依赖于系统的硬性最大值，来停止轮询获取更多事件</p>
+<h2 id="pending-callbacks"><a href="#pending-callbacks" class="headerlink" title="pending callbacks"></a>pending callbacks</h2><p>该队列在系统错误时执行回调（如TCP err），如TCP socket尝试重连收到了<code>ECONNREFUSED</code>，系统需要这些错误报告，那这个错误报告回调就会放在pending callbacks中等待被执行</p>
+<h2 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h2><p>最重要的阶段，poll主要包含两个功能：</p>
+<ol>
+<li><p>计算阻塞和轮询的IO时间</p>
+</li>
+<li><p>执行poll 队列里的events</p>
+</li>
+</ol>
+<p>当eventloop进入<code>poll</code>阶段，并没有timers的时候</p>
+<ul>
+<li><code>poll</code>不为空，顺序同步执行任务，直到为空或达到处理数量上限</li>
+<li><code>poll</code>为空：如果有setImmediate()，则进入<code>check phase</code>，反之就在<code>poll</code>等客人</li>
+</ul>
+<p>一但<code>poll</code>为空，eventlopp将会检查计时器是否有快到的，如果有需要执行的，eventloop将要进入<code>timers</code>阶段来顺序执行timer callback</p>
+<h2 id="check"><a href="#check" class="headerlink" title="check"></a>check</h2><p>这个phase可以在<code>poll</code>执行完成时开始执行setImmediate()回调。他其实是特殊的定时器队列，<strong>使用libuv API在poll完成的阶段执行</strong>（这也是他存在的原因）。</p>
+<h2 id="close-callbacks"><a href="#close-callbacks" class="headerlink" title="close callbacks"></a>close callbacks</h2><p>socket.desroy()等执行关闭event时候会进入该phase，否则会被process.nextTick()触发</p>
+<h1 id="setImmedate-vs-setTimeout"><a href="#setImmedate-vs-setTimeout" class="headerlink" title="setImmedate() vs setTimeout()"></a>setImmedate() vs setTimeout()</h1><p>相似却又不同</p>
+<ul>
+<li>setImmediate()是poll执行完成后执行的script</li>
+<li>setTimeout()是定时执行的</li>
+</ul>
+<p>执行哪个收到上下文的约束，如果两个都被主模块调用，那么进程性能将会收到约束（影响其他app运行）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">without IO</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">  console.log(&#x27;timeout&#x27;);</span><br><span class="line">&#125;, 0);</span><br><span class="line"></span><br><span class="line">setImmediate(() =&gt; &#123;</span><br><span class="line">  console.log(&#x27;immediate&#x27;);</span><br><span class="line">&#125;);</span><br><span class="line">//</span><br><span class="line">$ node timeout_vs_immediate.js</span><br><span class="line">timeout</span><br><span class="line">immediate</span><br><span class="line"></span><br><span class="line">$ node timeout_vs_immediate.js</span><br><span class="line">immediate</span><br><span class="line">timeout</span><br><span class="line"></span><br><span class="line">with IO</span><br><span class="line">// timeout_vs_immediate.js</span><br><span class="line">const fs = require(&#x27;fs&#x27;);</span><br><span class="line"></span><br><span class="line">fs.readFile(__filename, () =&gt; &#123;</span><br><span class="line">  setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(&#x27;timeout&#x27;);</span><br><span class="line">  &#125;, 0);</span><br><span class="line">  setImmediate(() =&gt; &#123;</span><br><span class="line">    console.log(&#x27;immediate&#x27;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">//</span><br><span class="line">immediate</span><br><span class="line">timeout</span><br></pre></td></tr></table></figure>
+
+<p>setImmediate()好处在于，如果有IO时会比setTimeout先执行</p>
+<h2 id="process-nextTick"><a href="#process-nextTick" class="headerlink" title="process.nextTick()"></a>process.nextTick()</h2><p>它是个异步API，并没有出现在六个phase中，他并不属于eventloop的一部分，当操作完成后处理nextTickQueue而不管eventloop执行到哪个阶段，这个异步API依赖于C&#x2F;C++处理 JavaScript</p>
+<p>他的callbakcs会立即执行，<strong>直到执行完</strong>，eventloop才会正常工作（如果nextTick递归调用则会死循环）</p>
+<p>为什么会出现这种设计？</p>
+<p>出于所有<strong>接口都应该异步</strong>的设计思路</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function apiCall(arg, callback) &#123;</span><br><span class="line">  if (typeof arg !== &#x27;string&#x27;)</span><br><span class="line">    return process.nextTick(callback,</span><br><span class="line">                            new TypeError(&#x27;argument should be string&#x27;));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码段会校验参数，如果不正确，它将会把错误传递给回调。该API最近更新，允许传任何参给process.nextTick(),所以你不需要嵌套。仅在剩余代码执行之后我们会把错误反馈给用户，通过nextTick，我们保证<code>apiCal()</code>始终在用户胜于代码之后及eventloop继续之前，执行。为了达到这个目标，JS栈内存允许展开并且立即执行提供的callback，似的nextTick递归不会有报错。</p>
+<h3 id="process-nextTick-vs-setImmediate"><a href="#process-nextTick-vs-setImmediate" class="headerlink" title="process.nextTick() vs setImmediate()"></a>process.nextTick() vs setImmediate()</h3><ul>
+<li>process.nextTick()立刻执行</li>
+<li>setImmediate()下次tick执行</li>
+</ul>
+<p>为什么需要process.nextTick()</p>
+<ul>
+<li>允许用户处理errors，清理不需要的资源，事件循环前 尝试重新连接</li>
+<li>有时有必要在eventloop继续之前，在call stack unwound之后，让callback执行</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const server = net.createServer();</span><br><span class="line">server.on(&#x27;connection&#x27;, (conn) =&gt; &#123; &#125;);</span><br><span class="line"></span><br><span class="line">server.listen(8080);</span><br><span class="line">server.on(&#x27;listening&#x27;, () =&gt; &#123; &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>listen()的callback调用的是setImmiate()，除非传递Hostname，否则立即绑定端口。为了保证eventloop继续，他必须进入<code>poll</code> phase，这意味着，存在可能已经收到了连接，从而允许在侦听事件之前触发连接事件</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B4%E7%90%86/" rel="tag"># 整理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/08/2020-04-08-LeetCodeWeek2/" rel="prev" title="LeetCodeWeek2">
+                  <i class="fa fa-angle-left"></i> LeetCodeWeek2
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/04/16/2020-04-16-%E5%90%8C%E4%B8%80%E5%AE%BF%E4%B8%BB%E6%9C%BA%E4%B8%8Bdocker%E4%BA%92%E7%9B%B8%E8%AE%BF%E9%97%AE/" rel="next" title="同一宿主机下docker互相访问">
+                  同一宿主机下docker互相访问 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

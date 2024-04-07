@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="免责声明：该文章个人翻译，仅做学习使用，可能存在翻译错误 全文重心15.6.2介绍了MYSQL的存储方式，对于我们了解数据库，更好地使用数据库提供了基础  The InnoDB Storage Engine15.1.1 Benefits of Using InnoDB Tables 15.1.2 Best Practices for InnoDB Tables 15.1.3 Verifying">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MySQL">
+<meta property="og:url" content="http://example.com/MySQL/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="免责声明：该文章个人翻译，仅做学习使用，可能存在翻译错误 全文重心15.6.2介绍了MYSQL的存储方式，对于我们了解数据库，更好地使用数据库提供了基础  The InnoDB Storage Engine15.1.1 Benefits of Using InnoDB Tables 15.1.2 Best Practices for InnoDB Tables 15.1.3 Verifying">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/innodb-architecture.png">
+<meta property="og:image" content="http://example.com/img/innodb-buffer-pool-list.png">
+<meta property="og:image" content="http://example.com/img/innodb-change-buffer.png">
+<meta property="article:published_time" content="2020-03-09T07:04:55.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.744Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/innodb-architecture.png">
+
+
+<link rel="canonical" href="http://example.com/MySQL/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":true,"permalink":"http://example.com/MySQL/index.html","path":"MySQL/index.html","title":"MySQL"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MySQL | Zehai's Blog
+</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-InnoDB-Storage-Engine"><span class="nav-number">1.</span> <span class="nav-text">The InnoDB Storage Engine</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#key-Advantage"><span class="nav-number">1.1.</span> <span class="nav-text">key Advantage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-1-1Benefits-of-InnoDB-Tables"><span class="nav-number">1.2.</span> <span class="nav-text">15.1.1Benefits of InnoDB Tables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-1-2-Best-Practices-for-InnoDB-Tables"><span class="nav-number">1.3.</span> <span class="nav-text">15.1.2 Best Practices for InnoDB Tables</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-2-InnoDB-and-the-ACID-Model"><span class="nav-number">1.4.</span> <span class="nav-text">15.2 InnoDB and the ACID Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-3-InnoDB-Multi-Versioning"><span class="nav-number">1.5.</span> <span class="nav-text">15.3 InnoDB Multi-Versioning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-4-InnoDB-Architecture"><span class="nav-number">1.6.</span> <span class="nav-text">15.4 InnoDB Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#15-5-1-Buffer-Pool"><span class="nav-number">1.6.1.</span> <span class="nav-text">15.5.1 Buffer Pool</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%EF%BC%9A"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">默认配置：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%91%E8%A7%86buffer-pool"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">监视buffer pool</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-5-2-Change-Buffer"><span class="nav-number">1.6.2.</span> <span class="nav-text">15.5.2 Change Buffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-5-3-Adptive-Hash-Index"><span class="nav-number">1.6.3.</span> <span class="nav-text">15.5.3 Adptive Hash Index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-5-4-Log-Buffer"><span class="nav-number">1.6.4.</span> <span class="nav-text">15.5.4 Log Buffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-1-Tables"><span class="nav-number">1.6.5.</span> <span class="nav-text">15.6.1 Tables</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-1-1-Creating-InnoDB-Tables"><span class="nav-number">1.6.5.1.</span> <span class="nav-text">15.6.1.1 Creating InnoDB Tables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-1-2-Creating-Tables-Externally"><span class="nav-number">1.6.5.2.</span> <span class="nav-text">15.6.1.2 Creating Tables Externally</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-1-3-Importing-InnoDB-Tables"><span class="nav-number">1.6.5.3.</span> <span class="nav-text">15.6.1.3 Importing InnoDB Tables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-1-4-Moving-or-Copying-InnoDB-Tables"><span class="nav-number">1.6.5.4.</span> <span class="nav-text">15.6.1.4 Moving or Copying InnoDB Tables</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-1-5-Converting-Tables-from-MyISAM-to-InnoDB"><span class="nav-number">1.6.5.5.</span> <span class="nav-text">15.6.1.5 Converting Tables from MyISAM to InnoDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-1-6-AUTO-INCREMENT-Handling-in-InnoDB"><span class="nav-number">1.6.5.6.</span> <span class="nav-text">15.6.1.6 AUTO_INCREMENT Handling in InnoDB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-2-Indexes"><span class="nav-number">1.6.6.</span> <span class="nav-text">15.6.2 Indexes</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-2-1-Clustered-and-Secondary-Indexes"><span class="nav-number">1.6.6.1.</span> <span class="nav-text">15.6.2.1 Clustered and Secondary Indexes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-2-2-The-Physical-Structure-of-an-InnoDB-Index"><span class="nav-number">1.6.6.2.</span> <span class="nav-text">15.6.2.2 The Physical Structure of an InnoDB Index</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-2-4-InnoDB-FULLTEXT-Indexes"><span class="nav-number">1.6.6.3.</span> <span class="nav-text">15.6.2.4 InnoDB FULLTEXT Indexes</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-3-Tablespaces"><span class="nav-number">1.6.7.</span> <span class="nav-text">15.6.3 Tablespaces</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-3-1-The-System-Tablespace"><span class="nav-number">1.6.7.1.</span> <span class="nav-text">15.6.3.1 The System Tablespace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-3-2-File-Per-Table-Tablespaces"><span class="nav-number">1.6.7.2.</span> <span class="nav-text">15.6.3.2 File-Per-Table Tablespaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-3-3-General-Tablespaces"><span class="nav-number">1.6.7.3.</span> <span class="nav-text">15.6.3.3 General Tablespaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-3-4-Undo-Tablespaces"><span class="nav-number">1.6.7.4.</span> <span class="nav-text">15.6.3.4 Undo Tablespaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-3-5-Temporary-Tablespaces"><span class="nav-number">1.6.7.5.</span> <span class="nav-text">15.6.3.5 Temporary Tablespaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-6-3-6-Moving-Tablespace-Files-While-the-Server-is-Offline"><span class="nav-number">1.6.7.6.</span> <span class="nav-text">15.6.3.6 Moving Tablespace Files While the Server is Offline</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-5-Redo-Log"><span class="nav-number">1.6.8.</span> <span class="nav-text">15.6.5 Redo Log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-6-6-Undo-Logs"><span class="nav-number">1.6.9.</span> <span class="nav-text">15.6.6 Undo Logs</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner page posts-expand">
+
+
+    
+    
+    
+    <div class="post-block" lang="en"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">MySQL
+</h1>
+
+<div class="post-meta-container">
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <blockquote>
+<p>免责声明：该文章个人翻译，仅做学习使用，可能存在翻译错误</p>
+<p>全文重心15.6.2介绍了MYSQL的存储方式，对于我们了解数据库，更好地使用数据库提供了基础</p>
+</blockquote>
+<h1 id="The-InnoDB-Storage-Engine"><a href="#The-InnoDB-Storage-Engine" class="headerlink" title="The InnoDB Storage Engine"></a>The InnoDB Storage Engine</h1><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-benefits.html">15.1.1 Benefits of Using InnoDB Tables</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-best-practices.html">15.1.2 Best Practices for InnoDB Tables</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-check-availability.html">15.1.3 Verifying that InnoDB is the Default Storage Engine</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-benchmarking.html">15.1.4 Testing and Benchmarking with InnoDB</a></p>
+<p>通用存储，默认使用InnoDB，如需更换引擎，创建表时ENGINE参数指定</p>
+<ul>
+<li>高性能</li>
+<li>高可靠</li>
+</ul>
+<h2 id="key-Advantage"><a href="#key-Advantage" class="headerlink" title="key Advantage"></a>key Advantage</h2><ul>
+<li>DML遵循ACID规则（支持事务）</li>
+<li>Row-level locking（行锁），和Oracle风格的一致读取可提高多用户并发性和性能。</li>
+<li>聚簇索引：InnoDB表将数据放在在磁盘上，来方便基于主键优化查询。每个InnoDB表都有一个称为聚集索引（ <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_clustered_index">clustered index</a>）的主键索引，该索引组织数据以最小化主键查找的I &#x2F; O。</li>
+<li>外键约束</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Support</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>B-tree indexes</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Backup&#x2F;point-in-time recovery</strong> (Implemented in the server, rather than in the storage engine.)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Cluster database support</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Clustered indexes</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Compressed data</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Data caches</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Encrypted data</strong></td>
+<td>Yes (Implemented in the server via encryption functions; In MySQL 5.7 and later, data-at-rest tablespace encryption is supported.)</td>
+</tr>
+<tr>
+<td><strong>Foreign key support</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Full-text search indexes</strong></td>
+<td>Yes (InnoDB support for FULLTEXT indexes is available in MySQL 5.6 and later.)</td>
+</tr>
+<tr>
+<td><strong>Geospatial data type support</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Geospatial indexing support</strong></td>
+<td>Yes (InnoDB support for geospatial indexing is available in MySQL 5.7 and later.)</td>
+</tr>
+<tr>
+<td><strong>Hash indexes</strong></td>
+<td>No (InnoDB utilizes hash indexes internally for its Adaptive Hash Index feature.)</td>
+</tr>
+<tr>
+<td><strong>Index caches</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Locking granularity</strong></td>
+<td>Row</td>
+</tr>
+<tr>
+<td><strong>MVCC</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Replication support</strong> (Implemented in the server, rather than in the storage engine.)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Storage limits</strong></td>
+<td>64TB</td>
+</tr>
+<tr>
+<td><strong>T-tree indexes</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Transactions</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Update statistics for data dictionary</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>mysql8.0 innoDB enhancements  <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/mysql-nutshell.html">InnoDB enhancements</a></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="15-1-1Benefits-of-InnoDB-Tables"><a href="#15-1-1Benefits-of-InnoDB-Tables" class="headerlink" title="15.1.1Benefits of InnoDB Tables"></a>15.1.1Benefits of InnoDB Tables</h2><ul>
+<li>重新启动数据库(主动or意外)后都无需执行任何特殊操作</li>
+<li>拥有缓冲池（buffer pool）经常访问的数据放到内存中处理</li>
+<li>设置外键，更新或删除数据，并自动更新或删除其他表中的相关数据。</li>
+<li>数据损坏提示</li>
+<li>设计正确的主键，会自动优化，使得where,order,group迅速</li>
+<li>CRUD通过自动机制（change buffering）可以对同一张表并发读写（行锁的优势），以及缓存CRUD后一起写入减少磁盘IO</li>
+<li>慢查询性能优异，自适应哈希索引（<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_adaptive_hash_index">Adaptive Hash Index</a>）使得一行被多次访问时，读取更快，就像hash一样</li>
+<li>支持压缩表和关联索引（associated indexes）</li>
+<li>支持创建和删除索引，而对性能和可用性影响较低</li>
+<li>Truncating a <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_file_per_table">file-per-table</a> tablespace is very fast, and can free up disk space for the operating system to reuse, rather than freeing up space within the <a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/glossary.html#glos_system_tablespace">system tablespace</a> that only <code>InnoDB</code> can reuse.（不知道在说什么）</li>
+<li>DYNAMIC格式解决BLOB和长文本的存储问题</li>
+<li>INFORMATION_SCHEMA监视存储引擎内部信息</li>
+<li>通过查询性能架构表（performance schema）来监视存储的性能</li>
+<li>兼容其他引擎的table</li>
+<li>处理大量数据时提高CUP效率，获得最佳性能</li>
+<li>支持处理大量数据</li>
+</ul>
+<h2 id="15-1-2-Best-Practices-for-InnoDB-Tables"><a href="#15-1-2-Best-Practices-for-InnoDB-Tables" class="headerlink" title="15.1.2 Best Practices for InnoDB Tables"></a>15.1.2 Best Practices for InnoDB Tables</h2><ul>
+<li>合理设置主键或者设置自动增量为主键</li>
+<li></li>
+</ul>
+<h2 id="15-2-InnoDB-and-the-ACID-Model"><a href="#15-2-InnoDB-and-the-ACID-Model" class="headerlink" title="15.2 InnoDB and the ACID Model"></a>15.2 InnoDB and the ACID Model</h2><h2 id="15-3-InnoDB-Multi-Versioning"><a href="#15-3-InnoDB-Multi-Versioning" class="headerlink" title="15.3 InnoDB Multi-Versioning"></a>15.3 InnoDB Multi-Versioning</h2><h2 id="15-4-InnoDB-Architecture"><a href="#15-4-InnoDB-Architecture" class="headerlink" title="15.4 InnoDB Architecture"></a>15.4 InnoDB Architecture</h2><p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html">15.5.1 Buffer Pool</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-change-buffer.html">15.5.2 Change Buffer</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-adaptive-hash.html">15.5.3 Adaptive Hash Index</a></p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-redo-log-buffer.html">15.5.4 Log Buffer</a></p>
+<p>图示↓</p>
+<p><img src="/../img/innodb-architecture.png" alt="InnoDB architecture diagram showing in-memory and on-disk structures."></p>
+<h3 id="15-5-1-Buffer-Pool"><a href="#15-5-1-Buffer-Pool" class="headerlink" title="15.5.1 Buffer Pool"></a>15.5.1 Buffer Pool</h3><p>设置buffer pool</p>
+<p>目的：提高大容量读取操作的效率，Pool 分为多个页，容纳多行数据，页遵循LRU：latest recently used替换原则</p>
+<p>缓冲池列表↓</p>
+<p><img src="/../img/innodb-buffer-pool-list.png" alt="Content is described in the surrounding text."></p>
+<p>LRU使得常用的页在new sublist部分，oldsublist是不常用，其中的页会被替换</p>
+<p>默认配置下算法具体完成</p>
+<ul>
+<li>old sublist占据3&#x2F;8</li>
+<li>midpoint 是新旧的边界</li>
+<li>新页插入midpoint位置（old头部）且可以被读（因为是用户启动的操作，例如sql query）,或者加载预读</li>
+<li>对old区的页操作，用户主动操作会使得页移向new区域，预读操作则不会</li>
+<li>不断更新，old末位淘汰</li>
+</ul>
+<p>默认情况下，用户主动操作dump操作也会把数据加载到pool中，尽管这些数据不在访问，以及预读仅访问一次的页面多次加载移到new的表头，慢慢淘汰，都存在问题</p>
+<h4 id="默认配置："><a href="#默认配置：" class="headerlink" title="默认配置："></a>默认配置：</h4><ul>
+<li>专机配置80%的内存作为buffer pool</li>
+<li>将缓冲池划分，避免并发竞争</li>
+<li>频繁访问的数据常驻内存</li>
+<li>控制预读请求，异步将数据调到buffer pool</li>
+<li>适当执行background flushing</li>
+<li>配置innodb缓冲池备份，避免意外</li>
+</ul>
+<h4 id="监视buffer-pool"><a href="#监视buffer-pool" class="headerlink" title="监视buffer pool"></a>监视buffer pool</h4><p>使用</p>
+<blockquote>
+<p>SHOW ENGINE INNODB STATUS</p>
+</blockquote>
+<p>访问monitor提供的缓冲池数据</p>
+<table>
+<thead>
+<tr>
+<th>Tpye</th>
+<th>name</th>
+<th>status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>InnoDB</td>
+<td></td>
+<td>(见下)</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">=====================================</span><br><span class="line">2020-03-11 09:06:22 0x7f4ef0097700 INNODB MONITOR OUTPUT</span><br><span class="line">=====================================</span><br><span class="line">Per second averages calculated from the last 52 seconds</span><br><span class="line">-----------------</span><br><span class="line">BACKGROUND THREAD</span><br><span class="line">-----------------</span><br><span class="line">srv_master_thread loops: 7 srv_active, 0 srv_shutdown, 181415 srv_idle</span><br><span class="line">srv_master_thread log flush and writes: 0</span><br><span class="line">----------</span><br><span class="line">SEMAPHORES</span><br><span class="line">----------</span><br><span class="line">OS WAIT ARRAY INFO: reservation count 3</span><br><span class="line">OS WAIT ARRAY INFO: signal count 3</span><br><span class="line">RW-shared spins 0, rounds 0, OS waits 0</span><br><span class="line">RW-excl spins 1, rounds 30, OS waits 0</span><br><span class="line">RW-sx spins 0, rounds 0, OS waits 0</span><br><span class="line">Spin rounds per wait: 0.00 RW-shared, 30.00 RW-excl, 0.00 RW-sx</span><br><span class="line">------------</span><br><span class="line">TRANSACTIONS</span><br><span class="line">------------</span><br><span class="line">Trx id counter 4410</span><br><span class="line">Purge done for trx&#x27;s n:o &lt; 4410 undo n:o &lt; 0 state: running but idle</span><br><span class="line">History list length 11</span><br><span class="line">LIST OF TRANSACTIONS FOR EACH SESSION:</span><br><span class="line">---TRANSACTION 421452050332264, not started</span><br><span class="line">0 lock struct(s), heap size 1136, 0 row lock(s)</span><br><span class="line">---TRANSACTION 421452050331392, not started</span><br><span class="line">0 lock struct(s), heap size 1136, 0 row lock(s)</span><br><span class="line">--------</span><br><span class="line">FILE I/O</span><br><span class="line">--------</span><br><span class="line">I/O thread 0 state: waiting for completed aio requests (insert buffer thread)</span><br><span class="line">I/O thread 1 state: waiting for completed aio requests (log thread)</span><br><span class="line">I/O thread 2 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 3 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 4 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 5 state: waiting for completed aio requests (read thread)</span><br><span class="line">I/O thread 6 state: waiting for completed aio requests (write thread)</span><br><span class="line">I/O thread 7 state: waiting for completed aio requests (write thread)</span><br><span class="line">I/O thread 8 state: waiting for completed aio requests (write thread)</span><br><span class="line">I/O thread 9 state: waiting for completed aio requests (write thread)</span><br><span class="line">Pending normal aio reads: [0, 0, 0, 0] , aio writes: [0, 0, 0, 0] ,</span><br><span class="line"> ibuf aio reads:, log i/o&#x27;s:, sync i/o&#x27;s:</span><br><span class="line">Pending flushes (fsync) log: 0; buffer pool: 0</span><br><span class="line">1129 OS file reads, 352 OS file writes, 117 OS fsyncs</span><br><span class="line">0.00 reads/s, 0 avg bytes/read, 0.00 writes/s, 0.00 fsyncs/s</span><br><span class="line">-------------------------------------</span><br><span class="line">INSERT BUFFER AND ADAPTIVE HASH INDEX</span><br><span class="line">-------------------------------------</span><br><span class="line">Ibuf: size 1, free list len 0, seg size 2, 0 merges</span><br><span class="line">merged operations:</span><br><span class="line"> insert 0, delete mark 0, delete 0</span><br><span class="line">discarded operations:</span><br><span class="line"> insert 0, delete mark 0, delete 0</span><br><span class="line">Hash table size 34679, node heap has 0 buffer(s)</span><br><span class="line">Hash table size 34679, node heap has 1 buffer(s)</span><br><span class="line">Hash table size 34679, node heap has 0 buffer(s)</span><br><span class="line">Hash table size 34679, node heap has 0 buffer(s)</span><br><span class="line">Hash table size 34679, node heap has 1 buffer(s)</span><br><span class="line">Hash table size 34679, node heap has 0 buffer(s)</span><br><span class="line">Hash table size 34679, node heap has 1 buffer(s)</span><br><span class="line">Hash table size 34679, node heap has 4 buffer(s)</span><br><span class="line">0.37 hash searches/s, 0.25 non-hash searches/s</span><br><span class="line">---</span><br><span class="line">LOG</span><br><span class="line">---</span><br><span class="line">Log sequence number          34372703</span><br><span class="line">Log buffer assigned up to    34372703</span><br><span class="line">Log buffer completed up to   34372703</span><br><span class="line">Log written up to            34372703</span><br><span class="line">Log flushed up to            34372703</span><br><span class="line">Added dirty pages up to      34372703</span><br><span class="line">Pages flushed up to          34372703</span><br><span class="line">Last checkpoint at           34372703</span><br><span class="line">95 log i/o&#x27;s done, 0.00 log i/o&#x27;s/second</span><br><span class="line">----------------------</span><br><span class="line">BUFFER POOL AND MEMORY</span><br><span class="line">----------------------</span><br><span class="line">Total large memory allocated 137363456</span><br><span class="line">Dictionary memory allocated 464815</span><br><span class="line">Buffer pool size   8192</span><br><span class="line">Free buffers       6942</span><br><span class="line">Database pages     1243</span><br><span class="line">Old database pages 478</span><br><span class="line">Modified db pages  0</span><br><span class="line">Pending reads      0</span><br><span class="line">Pending writes: LRU 0, flush list 0, single page 0</span><br><span class="line">Pages made young 0, not young 0</span><br><span class="line">0.00 youngs/s, 0.00 non-youngs/s</span><br><span class="line">Pages read 1100, created 143, written 214</span><br><span class="line">0.00 reads/s, 0.00 creates/s, 0.00 writes/s</span><br><span class="line">Buffer pool hit rate 1000 / 1000, young-making rate 0 / 1000 not 0 / 1000</span><br><span class="line">Pages read ahead 0.00/s, evicted without access 0.00/s, Random read ahead 0.00/s</span><br><span class="line">LRU len: 1243, unzip_LRU len: 0</span><br><span class="line">I/O sum[0]:cur[0], unzip sum[0]:cur[0]</span><br><span class="line">--------------</span><br><span class="line">ROW OPERATIONS</span><br><span class="line">--------------</span><br><span class="line">0 queries inside InnoDB, 0 queries in queue</span><br><span class="line">0 read views open inside InnoDB</span><br><span class="line">Process ID=1, Main thread ID=139976635500288 , state=sleeping</span><br><span class="line">Number of rows inserted 33, updated 323, deleted 0, read 8471</span><br><span class="line">0.00 inserts/s, 0.00 updates/s, 0.00 deletes/s, 0.65 reads/s</span><br><span class="line">----------------------------</span><br><span class="line">END OF INNODB MONITOR OUTPUT</span><br><span class="line">============================</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>核心指标</p>
+<p>Total large memory allocated 137363456&#x2F;&#x2F;总内存<br>Dictionary memory allocated 464815&#x2F;&#x2F;data+index分配内存<br>Buffer pool size   8192<br>Free buffers       6942<br>Database pages     1243<br>Old database pages 478<br>Modified db pages  0<br>Pending reads      0<br>Pending writes: LRU 0, flush list 0, single page 0<br>Pages made young 0, not young 0&#x2F;&#x2F;移到young区页数<br>0.00 youngs&#x2F;s, 0.00 non-youngs&#x2F;s&#x2F;&#x2F;移动速度<br>Pages read 1100, created 143, written 214<br>0.00 reads&#x2F;s, 0.00 creates&#x2F;s, 0.00 writes&#x2F;s</p>
+<p>&#x2F;&#x2F;命中率指标</p>
+<p>Buffer pool hit rate 1000 &#x2F; 1000, young-making rate 0 &#x2F; 1000 not 0 &#x2F; 1000</p>
+<p>&#x2F;&#x2F;预读指标</p>
+<p>&#x2F;&#x2F;预读速度，预读后无效页速度，随机预读速度</p>
+<p>Pages read ahead 0.00&#x2F;s, evicted without access 0.00&#x2F;s, Random read ahead 0.00&#x2F;s</p>
+<p>&#x2F;&#x2F;LRU列表长度</p>
+<p>LRU len: 1243, unzip_LRU len: 0<br>I&#x2F;O sum[0]:cur[0], unzip sum[0]:cur[0]</p>
+<h3 id="15-5-2-Change-Buffer"><a href="#15-5-2-Change-Buffer" class="headerlink" title="15.5.2 Change Buffer"></a>15.5.2 Change Buffer</h3><p>change buffer是一种特殊的数据结构，页面不在缓冲池时，cashes会改变secondary index，当缓冲更改将在以后通过其他读操作将页面加载到缓冲池合并</p>
+<p><img src="/../img/innodb-change-buffer.png" alt="Content is described in the surrounding text."></p>
+<h3 id="15-5-3-Adptive-Hash-Index"><a href="#15-5-3-Adptive-Hash-Index" class="headerlink" title="15.5.3 Adptive Hash Index"></a>15.5.3 Adptive Hash Index</h3><h3 id="15-5-4-Log-Buffer"><a href="#15-5-4-Log-Buffer" class="headerlink" title="15.5.4 Log Buffer"></a>15.5.4 Log Buffer</h3><h3 id="15-6-1-Tables"><a href="#15-6-1-Tables" class="headerlink" title="15.6.1 Tables"></a>15.6.1 Tables</h3><h4 id="15-6-1-1-Creating-InnoDB-Tables"><a href="#15-6-1-1-Creating-InnoDB-Tables" class="headerlink" title="15.6.1.1 Creating InnoDB Tables"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/using-innodb-tables.html">15.6.1.1 Creating InnoDB Tables</a></h4><p>create table statement</p>
+<blockquote>
+<p>CREATE TABLE t1 (a INT, b CHAR (20), PRIMARY KEY (a)) ENGINE&#x3D;InnoDB;</p>
+</blockquote>
+<p>默认配置下，默认InnoDB，则无需指定，查询配置中默认引擎指令</p>
+<blockquote>
+<p>SELECT @@default_storage_engine</p>
+</blockquote>
+<p>在以下情况下需要使用ENGINE&#x3D;InnoDB</p>
+<ul>
+<li>use mysqldump（A Database Backup Program）</li>
+<li>复制到不是innodb的server上</li>
+</ul>
+<p>innodb的表和索引创建在system tablespace  or file-per-table tablespace or general tablespace。当启用<code>innodb file per table</code>（默认启用），innodb表会被隐式创建在读了的file-per-table space。相反的禁用会创建在innodb system tablespace.使用create table … tablespace 语法在general tablespace中创建表</p>
+<p>当你在&#96;file-per-table tablespace 中创建表的时候，MySQL默认会在数据目录下创建.db表空间文件。在Innodb system tablespace中创建的表，由已经存在的ibdata文件创建的，该文件在MySQL data目录中，在general tablespace 中创建的表，由已经存在的general tablespace .bd文件创建，该文件可以在data 目录的内部或者外部</p>
+<p>内部中，innodb会将每个表的entry添加到data dictionary中。entry包括，database name。例如，在数据库中创建table t1 (in test database),datadictionary 就是<code>test/t1</code>，当你在别的database中创建同名表不会冲突。</p>
+<p><strong>InnoDB tables and Row Formats</strong></p>
+<p>默认通过<code>innodb default row format</code>配置项配置默认行格式，默认值<code>DYNAMIC</code>.</p>
+<p>Dynamic 和 Compressed行格式功能，比如</p>
+<ul>
+<li>表压缩</li>
+<li>efficient off-page storage of column values</li>
+</ul>
+<p>该功能需要<code>innodb file per table</code>支持</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> innodb_file_per_table<span class="operator">=</span><span class="number">1</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t3 (a <span class="type">INT</span>, b <span class="type">CHAR</span> (<span class="number">20</span>), <span class="keyword">PRIMARY</span> KEY (a)) ROW_FORMAT<span class="operator">=</span><span class="keyword">DYNAMIC</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t4 (a <span class="type">INT</span>, b <span class="type">CHAR</span> (<span class="number">20</span>), <span class="keyword">PRIMARY</span> KEY (a)) ROW_FORMAT<span class="operator">=</span>COMPRESSED;</span><br><span class="line"></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="keyword">or</span> </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY) TABLESPACE ts1 ROW_FORMAT<span class="operator">=</span><span class="keyword">DYNAMIC</span>;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="keyword">or</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY) TABLESPACE <span class="operator">=</span> innodb_system ROW_FORMAT<span class="operator">=</span><span class="keyword">DYNAMIC</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>InnoDB Tables Primary Keys</strong></p>
+<p>主键必须存在，并满足一个或多个条件：</p>
+<ul>
+<li>经常索引</li>
+<li>不为空</li>
+<li>不重复</li>
+<li>几乎不更新</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># The <span class="keyword">value</span> <span class="keyword">of</span> ID can act <span class="keyword">like</span> a pointer <span class="keyword">between</span> related items <span class="keyword">in</span> different tables.</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t5 (id <span class="type">INT</span> AUTO_INCREMENT, b <span class="type">CHAR</span> (<span class="number">20</span>), <span class="keyword">PRIMARY</span> KEY (id));</span><br><span class="line"></span><br><span class="line"># The <span class="keyword">primary</span> key can consist <span class="keyword">of</span> more than <span class="keyword">one</span> column. <span class="keyword">Any</span> autoinc <span class="keyword">column</span> must come first.</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t6 (id <span class="type">INT</span> AUTO_INCREMENT, a <span class="type">INT</span>, b <span class="type">CHAR</span> (<span class="number">20</span>), <span class="keyword">PRIMARY</span> KEY (id,a));</span><br></pre></td></tr></table></figure>
+
+<p><strong>innodb talbe properties</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SHOW</span> <span class="keyword">TABLE</span> STATUS <span class="keyword">FROM</span> test <span class="keyword">LIKE</span> <span class="string">&#x27;t%&#x27;</span> \G;</span><br><span class="line"><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span> <span class="number">1.</span> <span class="type">row</span> <span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span></span><br><span class="line">           Name: t1</span><br><span class="line">         Engine: InnoDB</span><br><span class="line">        Version: <span class="number">10</span></span><br><span class="line">     Row_format: Compact</span><br><span class="line">           <span class="keyword">Rows</span>: <span class="number">0</span></span><br><span class="line"> Avg_row_length: <span class="number">0</span></span><br><span class="line">    Data_length: <span class="number">16384</span></span><br><span class="line">Max_data_length: <span class="number">0</span></span><br><span class="line">   Index_length: <span class="number">0</span></span><br><span class="line">      Data_free: <span class="number">0</span></span><br><span class="line"> Auto_increment: <span class="keyword">NULL</span></span><br><span class="line">    Create_time: <span class="number">2015</span><span class="number">-03</span><span class="number">-16</span> <span class="number">15</span>:<span class="number">13</span>:<span class="number">31</span></span><br><span class="line">    Update_time: <span class="keyword">NULL</span></span><br><span class="line">     Check_time: <span class="keyword">NULL</span></span><br><span class="line">      <span class="keyword">Collation</span>: utf8mb4_0900_ai_ci</span><br><span class="line">       Checksum: <span class="keyword">NULL</span></span><br><span class="line"> Create_options:</span><br><span class="line">        Comment:</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line"><span class="operator">/</span><span class="operator">/</span><span class="keyword">or</span></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> INFORMATION_SCHEMA.INNODB_TABLES <span class="keyword">WHERE</span> NAME<span class="operator">=</span><span class="string">&#x27;test/t1&#x27;</span> \G</span><br><span class="line"><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span> <span class="number">1.</span> <span class="type">row</span> <span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span><span class="operator">*</span></span><br><span class="line">     TABLE_ID: <span class="number">45</span></span><br><span class="line">         NAME: test<span class="operator">/</span>t1</span><br><span class="line">         FLAG: <span class="number">1</span></span><br><span class="line">       N_COLS: <span class="number">5</span></span><br><span class="line">        SPACE: <span class="number">35</span></span><br><span class="line">   ROW_FORMAT: Compact</span><br><span class="line">ZIP_PAGE_SIZE: <span class="number">0</span></span><br><span class="line">   SPACE_TYPE: Single</span><br></pre></td></tr></table></figure>
+
+<h4 id="15-6-1-2-Creating-Tables-Externally"><a href="#15-6-1-2-Creating-Tables-Externally" class="headerlink" title="15.6.1.2 Creating Tables Externally"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-create-table-external.html">15.6.1.2 Creating Tables Externally</a></h4><p>创建外键原因：</p>
+<ul>
+<li>space management</li>
+<li>IO优化</li>
+<li>把表放置在特定性能或者容量的存储设备上（？）</li>
+</ul>
+<p>创建方式：</p>
+<ul>
+<li>使用data directionary</li>
+<li>CREATE TABLE … TABLESPACE Syntax</li>
+<li>Creating a Table in an External General Tablespace</li>
+</ul>
+<p><strong>Using the DATA DIRECTORY Clause</strong></p>
+<blockquote>
+<p>CREATE TABLE t1 (c1 INT PRIMARY KEY) DATA DIRECTORY &#x3D; ‘<em>&#x2F;external&#x2F;directory</em>‘;</p>
+</blockquote>
+<p>在<code>file-per-talbe tablespaces</code>中支持使用DATA DIRECTORY clause创建表。在<code>file-per-table</code>中启用<code>innodb file per table</code>将隐式创建表 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT @@innodb_file_per_table;</span><br><span class="line">+-------------------------+</span><br><span class="line">| @@innodb_file_per_table |</span><br><span class="line">+-------------------------+</span><br><span class="line">|                       1 |</span><br><span class="line">+-------------------------+</span><br></pre></td></tr></table></figure>
+
+<p><strong>External</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> USE test;</span><br><span class="line">Database changed</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t1 (c1 <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY) DATA DIRECTORY <span class="operator">=</span> <span class="string">&#x27;/external/directory&#x27;</span>;</span><br><span class="line"></span><br><span class="line"># MySQL creates the <span class="keyword">table</span><span class="string">&#x27;s data file in a schema directory </span></span><br><span class="line"><span class="string"># under the external directory</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">shell&gt; cd /external/directory/test</span></span><br><span class="line"><span class="string">shell&gt; ls</span></span><br><span class="line"><span class="string">t1.ibd</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用须知</strong></p>
+<ul>
+<li>external时候要确保innodb知道该目录</li>
+<li>(待补充)</li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<p><strong>Using CREATE TABLE … TABLESPACE Syntax</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> t2 (c1 <span class="type">INT</span> <span class="keyword">PRIMARY</span> KEY) TABLESPACE <span class="operator">=</span> innodb_file_per_table</span><br><span class="line">       DATA DIRECTORY <span class="operator">=</span> <span class="string">&#x27;/external/directory&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这个方法仅仅可以用在<code>file-per-talbe tablespaces</code>中创建的表，并不需要enable <code>innodb file per talbe</code>，在其他方面，这个方法等效于create table …data directory方法，适用相同<code>使用须知</code></p>
+<p><strong>Creating a Table in an External General Tablespace</strong></p>
+<p>可以在general tablespaces中依靠external directory创建表</p>
+<h4 id="15-6-1-3-Importing-InnoDB-Tables"><a href="#15-6-1-3-Importing-InnoDB-Tables" class="headerlink" title="15.6.1.3 Importing InnoDB Tables"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-table-import.html">15.6.1.3 Importing InnoDB Tables</a></h4><h4 id="15-6-1-4-Moving-or-Copying-InnoDB-Tables"><a href="#15-6-1-4-Moving-or-Copying-InnoDB-Tables" class="headerlink" title="15.6.1.4 Moving or Copying InnoDB Tables"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-migration.html">15.6.1.4 Moving or Copying InnoDB Tables</a></h4><h4 id="15-6-1-5-Converting-Tables-from-MyISAM-to-InnoDB"><a href="#15-6-1-5-Converting-Tables-from-MyISAM-to-InnoDB" class="headerlink" title="15.6.1.5 Converting Tables from MyISAM to InnoDB"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/converting-tables-to-innodb.html">15.6.1.5 Converting Tables from MyISAM to InnoDB</a></h4><h4 id="15-6-1-6-AUTO-INCREMENT-Handling-in-InnoDB"><a href="#15-6-1-6-AUTO-INCREMENT-Handling-in-InnoDB" class="headerlink" title="15.6.1.6 AUTO_INCREMENT Handling in InnoDB"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-auto-increment-handling.html">15.6.1.6 AUTO_INCREMENT Handling in InnoDB</a></h4><h3 id="15-6-2-Indexes"><a href="#15-6-2-Indexes" class="headerlink" title="15.6.2 Indexes"></a>15.6.2 Indexes</h3><h4 id="15-6-2-1-Clustered-and-Secondary-Indexes"><a href="#15-6-2-1-Clustered-and-Secondary-Indexes" class="headerlink" title="15.6.2.1 Clustered and Secondary Indexes"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-index-types.html">15.6.2.1 Clustered and Secondary Indexes</a></h4><blockquote>
+<p>该章节受面试官欢迎</p>
+</blockquote>
+<p>innodb采用聚簇索引，存储行数据，聚簇索引与主键同义（Synonymos）</p>
+<ul>
+<li>主键（或自增列）会用作聚簇索引</li>
+<li>如果没有主键则mysql会在所有列都不为null的情况下，给unique索引用作聚簇索引</li>
+<li>如果以上都没有，会内部生成名为GEN_CLUST_INDEX的隐藏聚集索引</li>
+</ul>
+<p><strong>why更快</strong></p>
+<p>聚簇索引访问行是快速的，因为可以直接导航到所有行数据的页，如果页很大，聚簇索引相对于其他会减少IO（其他的引擎使用不同的页面来存储行数据和索引）</p>
+<p><strong>两者相关</strong></p>
+<p>在非聚簇索引中，每条记录包含主键以及指向非聚簇索引的列（个人理解，除了存储主键，主键还需要存储地址去指向row）</p>
+<p>在聚簇索引中，利用主键的值取寻找这条记录</p>
+<p>如果主键长则非聚簇索引使用更多空间，因此它适合使用短主键</p>
+<h4 id="15-6-2-2-The-Physical-Structure-of-an-InnoDB-Index"><a href="#15-6-2-2-The-Physical-Structure-of-an-InnoDB-Index" class="headerlink" title="15.6.2.2 The Physical Structure of an InnoDB Index"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-physical-structure.html">15.6.2.2 The Physical Structure of an InnoDB Index</a></h4><p>除了空间索引（spatial indexes）,innoDB索引都是B-tree</p>
+<p>空间索引使用R-trees（索引多维数据的专用数据结构）</p>
+<p>索引记录存储在B树或者R树，数据结构中的叶子节点中的页中，索引页默认16K</p>
+<p>当新的记录插入到聚簇索引中时，innodb尝试空闲页1&#x2F;16供将来插入和更新索引记录</p>
+<p>顺序插入则所得索引页约为15&#x2F;16装满</p>
+<p>乱序插入则页面容量为1&#x2F;2 to 15&#x2F;16</p>
+<p>InnoDB在创建或者重建Btree时执行批量加载，成为排序索引构建（sorted index build）通过<code>innodb fill factor</code> 配置项定义在排序索引构建期间填充每个B-Tree页面上的空间百分比，剩余的空间将来索引增长使用</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/sorted-index-builds.html">15.6.2.3 Sorted Index Builds</a></p>
+<h4 id="15-6-2-4-InnoDB-FULLTEXT-Indexes"><a href="#15-6-2-4-InnoDB-FULLTEXT-Indexes" class="headerlink" title="15.6.2.4 InnoDB FULLTEXT Indexes"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-fulltext-index.html">15.6.2.4 InnoDB FULLTEXT Indexes</a></h4><h3 id="15-6-3-Tablespaces"><a href="#15-6-3-Tablespaces" class="headerlink" title="15.6.3 Tablespaces"></a>15.6.3 Tablespaces</h3><h4 id="15-6-3-1-The-System-Tablespace"><a href="#15-6-3-1-The-System-Tablespace" class="headerlink" title="15.6.3.1 The System Tablespace"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-system-tablespace.html">15.6.3.1 The System Tablespace</a></h4><h4 id="15-6-3-2-File-Per-Table-Tablespaces"><a href="#15-6-3-2-File-Per-Table-Tablespaces" class="headerlink" title="15.6.3.2 File-Per-Table Tablespaces"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-file-per-table-tablespaces.html">15.6.3.2 File-Per-Table Tablespaces</a></h4><h4 id="15-6-3-3-General-Tablespaces"><a href="#15-6-3-3-General-Tablespaces" class="headerlink" title="15.6.3.3 General Tablespaces"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/general-tablespaces.html">15.6.3.3 General Tablespaces</a></h4><h4 id="15-6-3-4-Undo-Tablespaces"><a href="#15-6-3-4-Undo-Tablespaces" class="headerlink" title="15.6.3.4 Undo Tablespaces"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-undo-tablespaces.html">15.6.3.4 Undo Tablespaces</a></h4><h4 id="15-6-3-5-Temporary-Tablespaces"><a href="#15-6-3-5-Temporary-Tablespaces" class="headerlink" title="15.6.3.5 Temporary Tablespaces"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-temporary-tablespace.html">15.6.3.5 Temporary Tablespaces</a></h4><h4 id="15-6-3-6-Moving-Tablespace-Files-While-the-Server-is-Offline"><a href="#15-6-3-6-Moving-Tablespace-Files-While-the-Server-is-Offline" class="headerlink" title="15.6.3.6 Moving Tablespace Files While the Server is Offline"></a><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-moving-data-files-offline.html">15.6.3.6 Moving Tablespace Files While the Server is Offline</a></h4><p>###15.6.4 Doublewrite Buffer</p>
+<h3 id="15-6-5-Redo-Log"><a href="#15-6-5-Redo-Log" class="headerlink" title="15.6.5 Redo Log"></a>15.6.5 Redo Log</h3><h3 id="15-6-6-Undo-Logs"><a href="#15-6-6-Undo-Logs" class="headerlink" title="15.6.6 Undo Logs"></a>15.6.6 Undo Logs</h3><p>](<a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/8.0/en/innodb-fulltext-index.html">https://dev.mysql.com/doc/refman/8.0/en/innodb-fulltext-index.html</a>)</p>
+
+      </div>
+      
+      
+      
+    </div>
+
+    
+    
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

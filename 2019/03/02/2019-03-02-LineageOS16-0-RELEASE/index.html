@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="16.0正式发布我们从去年八月开始，努力将我们LineageOs的新特性移植到新版本的安卓上，非常感谢之前版本中的工作者们，我们才能够在这次的版本新特性中投入更多的精力，尤其是，隐私守护（Privacy Guard）和插件（su addon）上收到了了大量的提升建议。通过对Styles API的一些细微更改，他现在可以兼容安卓暗黑模式的默认实现，在未来，越来越多的三方应用将遵循系统风格，这意味着S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LineageOS16.0-RELEASE">
+<meta property="og:url" content="http://example.com/2019/03/02/2019-03-02-LineageOS16-0-RELEASE/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="16.0正式发布我们从去年八月开始，努力将我们LineageOs的新特性移植到新版本的安卓上，非常感谢之前版本中的工作者们，我们才能够在这次的版本新特性中投入更多的精力，尤其是，隐私守护（Privacy Guard）和插件（su addon）上收到了了大量的提升建议。通过对Styles API的一些细微更改，他现在可以兼容安卓暗黑模式的默认实现，在未来，越来越多的三方应用将遵循系统风格，这意味着S">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-03-02T12:12:52.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.748Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2019/03/02/2019-03-02-LineageOS16-0-RELEASE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2019/03/02/2019-03-02-LineageOS16-0-RELEASE/","path":"2019/03/02/2019-03-02-LineageOS16-0-RELEASE/","title":"LineageOS16.0-RELEASE"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LineageOS16.0-RELEASE | Zehai's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#16-0%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%83"><span class="nav-number">1.</span> <span class="nav-text">16.0正式发布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E6%9B%B4%E6%96%B0%E5%90%8D%E5%8D%95"><span class="nav-number">2.</span> <span class="nav-text">支持更新名单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%83%AD%E9%97%A8%E7%9A%84ROM"><span class="nav-number">3.</span> <span class="nav-text">其他热门的ROM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E6%96%87"><span class="nav-number">4.</span> <span class="nav-text">原文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-LineageOS-16-0"><span class="nav-number">5.</span> <span class="nav-text">Hello LineageOS 16.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Upgrading-to-LineageOS-16-0"><span class="nav-number">5.1.</span> <span class="nav-text">Upgrading to LineageOS 16.0</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/02/2019-03-02-LineageOS16-0-RELEASE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LineageOS16.0-RELEASE | Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LineageOS16.0-RELEASE
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-03-02 20:12:52" itemprop="dateCreated datePublished" datetime="2019-03-02T20:12:52+08:00">2019-03-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-04-07 22:34:12" itemprop="dateModified" datetime="2024-04-07T22:34:12+08:00">2024-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/phones/" itemprop="url" rel="index"><span itemprop="name">phones</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="16-0正式发布"><a href="#16-0正式发布" class="headerlink" title="16.0正式发布"></a>16.0正式发布</h2><p>我们从去年八月开始，努力将我们LineageOs的新特性移植到新版本的安卓上，非常感谢之前版本中的工作者们，我们才能够在这次的版本新特性中投入更多的精力，尤其是，隐私守护（Privacy Guard）和插件（su addon）上收到了了大量的提升建议。<br>通过对Styles API的一些细微更改，他现在可以兼容安卓暗黑模式的默认实现，在未来，越来越多的三方应用将遵循系统风格，这意味着Styles API将允许在跨应用程序时获得更一致的体验。<br>正如我们发布夏季第二次调研结果那样，我们将介绍Trust的新特性，首先是设备锁定时阻止新USB设备连接。请注意，由于基于底层，所以这个特性必须在每个设备底层中启用。Trebuchet现在还可以隐藏app以及在打开app前进行身份验证。该限制也仅在Trebuchet中，并非系统范围。<br>我们认为16.0的分支已经达到了15.1版本的特性测试并做好了发布准备。随着16.0分支成为最新最活跃的分支，在2019.3.1，它将开始日更新构建，并且15.1将会移动到周更新。<br>16.0版本将会从小部分机器开始运行，一些其他的机子如果准备好了，我们也会做一些小改动，开始构建，并通过改动构建脚本来更好地处理我们最新手机的，独特feature，以及由此产生的复杂问题</p>
+<h2 id="支持更新名单"><a href="#支持更新名单" class="headerlink" title="支持更新名单"></a>支持更新名单</h2><ul>
+<li>Asus</li>
+<li>BQ</li>
+<li>Fairphone</li>
+<li>Google</li>
+<li>HTC</li>
+<li>Huawei</li>
+<li>LeEco</li>
+<li>Lenovo</li>
+<li>LG</li>
+<li>Moto</li>
+<li>Nextbit</li>
+<li>Nubia</li>
+<li>Nvdia</li>
+<li>OnePlus(my oneplus 5T receive 16.0)</li>
+<li>Oppo</li>
+<li>Samsung</li>
+<li>Sony</li>
+<li>Wileyfox</li>
+<li>Wingtech</li>
+<li>Xiaomi</li>
+<li>YU</li>
+<li>ZTE</li>
+<li>Zuk</li>
+<li>more</li>
+</ul>
+<h2 id="其他热门的ROM"><a href="#其他热门的ROM" class="headerlink" title="其他热门的ROM"></a>其他热门的ROM</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.mokeedev.com/">MoKee</a>]</li>
+<li><a target="_blank" rel="noopener" href="https://crdroid.net/">crDroid</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.miui.com/">MIUI</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.flyme.cn/">Flyme</a></li>
+<li><a target="_blank" rel="noopener" href="https://pixelexperience.org/">PixelExperience</a></li>
+</ul>
+<h2 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h2><blockquote>
+<h2 id="Hello-LineageOS-16-0"><a href="#Hello-LineageOS-16-0" class="headerlink" title="Hello LineageOS 16.0"></a>Hello LineageOS 16.0</h2><p>We’ve been working hard since August to port our unique features to this new version of Android. Thanks to the major cleanup and refactoring done in the previous version, we were able to focus more on features and reliability this time; in particular, both Privacy Guard and the su addon received a sizeable amount of improvements.</p>
+<p>With some minor changes made to the <a target="_blank" rel="noopener" href="https://wiki.lineageos.org/sdk/api/styles.html">Styles API</a>, it is now compatible with what will eventually become the default implementation of dark mode in Android. In the future, more and more third party apps will follow the system style, meaning our Styles API will allow you to have a more coherent experience across apps.</p>
+<p>As we announced when the <a target="_blank" rel="noopener" href="https://lineageos.org/Summer-Survey-2-Results/">Summer Survey 2 results</a> were posted, we will be introducing new features to <a target="_blank" rel="noopener" href="https://lineageos.org/Trust-me/">Trust</a>, beginning with the ability to block new USB device connections when device is locked. Please note that this feature has to be enabled on a per-device basis due to the layer at which this was implemented. Trebuchet is also now able to hide apps and require authentication before opening them. Please note that this restriction is limited to Trebuchet and is not system-wide.</p>
+<p>We feel that the 16.0 branch has reached feature parity with 15.1 and is ready for initial release. With 16.0 being the most recent and most actively-developed branch, on March 1st, 2019 it will begin receiving builds nightly and 15.1 will be moved to weekly builds.</p>
+<p>LineageOS 16.0 will be launching with a small selection of devices. Additional devices will begin receiving builds as they are ready and after we make minor change to our build scripts to better handle the unique features, and resulting complications, of the most modern devices.</p>
+<h3 id="Upgrading-to-LineageOS-16-0"><a href="#Upgrading-to-LineageOS-16-0" class="headerlink" title="Upgrading to LineageOS 16.0"></a>Upgrading to LineageOS 16.0</h3><ol>
+<li><p>(Optional) Make a backup of your important data</p>
+</li>
+<li><p>Download the build either from</p>
+<p>download portal</p>
+<p>or built in Updater app</p>
+<ul>
+<li>You can export the downloaded package from the Updater app to the sdcard by long-pressing it and then selecting <em>“Export”</em> in the popup menu</li>
+</ul>
+</li>
+<li><p>Download proper addons packages (<a target="_blank" rel="noopener" href="https://wiki.lineageos.org/gapps.html">GApps</a>, <a target="_blank" rel="noopener" href="https://download.lineageos.org/extras">su</a>…) for Android 9.0&#x2F;Lineage OS 16.0</p>
+</li>
+<li><p>Make sure your recovery and firmware are up to date</p>
+</li>
+<li><p>Format your system partition</p>
+</li>
+<li><p>Follow the “Installing LineageOS from recovery” section <a target="_blank" rel="noopener" href="https://wiki.lineageos.org/install_guides.html">on your device’s installation page</a></p>
+</li>
+</ol>
+<p>Please note that if you’re currently on an official build, you <em>DO NOT</em> need to wipe your device.</p>
+<p>If you are installing from an unofficial build, you <em>MUST</em> wipe data from recovery before installing.</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/02/2019-03-02-java%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/" rel="prev" title="java类的加载机制">
+                  <i class="fa fa-angle-left"></i> java类的加载机制
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/04/2019-03-04-docker/" rel="next" title="docker">
+                  docker <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

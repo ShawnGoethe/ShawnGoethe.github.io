@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="whatMQ-message queue 三足鼎立 rocketmq​​ -Made by Java 吞吐量高一些 阿里中间件 rabbitmq -Made by Erlang Kafka-   以后有更多的了解再补充性能&#x2F;功能差距 why功能：解耦(双方通过mq交互)、异步、削峰 应用：  阿里双11  问题：  处理好新增的复杂性 处理好系统可用性  how之所以选择rabbitmq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ">
+<meta property="og:url" content="http://example.com/2020/09/14/2020-09-14-RabbitMQ/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="whatMQ-message queue 三足鼎立 rocketmq​​ -Made by Java 吞吐量高一些 阿里中间件 rabbitmq -Made by Erlang Kafka-   以后有更多的了解再补充性能&#x2F;功能差距 why功能：解耦(双方通过mq交互)、异步、削峰 应用：  阿里双11  问题：  处理好新增的复杂性 处理好系统可用性  how之所以选择rabbitmq">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2020/09/14/img/mq.jpg">
+<meta property="article:published_time" content="2020-09-14T04:13:40.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.767Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="basic">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/09/14/img/mq.jpg">
+
+
+<link rel="canonical" href="http://example.com/2020/09/14/2020-09-14-RabbitMQ/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2020/09/14/2020-09-14-RabbitMQ/","path":"2020/09/14/2020-09-14-RabbitMQ/","title":"RabbitMQ"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>RabbitMQ | Zehai's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#what"><span class="nav-number">1.</span> <span class="nav-text">what</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#why"><span class="nav-number">2.</span> <span class="nav-text">why</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#how"><span class="nav-number">3.</span> <span class="nav-text">how</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-docker-run"><span class="nav-number">3.1.</span> <span class="nav-text">1.docker run</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Usage"><span class="nav-number">3.2.</span> <span class="nav-text">2.Usage</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/09/14/2020-09-14-RabbitMQ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="RabbitMQ | Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RabbitMQ
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-09-14 12:13:40" itemprop="dateCreated datePublished" datetime="2020-09-14T12:13:40+08:00">2020-09-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-04-07 22:34:12" itemprop="dateModified" datetime="2024-04-07T22:34:12+08:00">2024-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MQ/" itemprop="url" rel="index"><span itemprop="name">MQ</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="what"><a href="#what" class="headerlink" title="what"></a>what</h1><p>MQ-message queue</p>
+<p>三足鼎立</p>
+<p>rocketmq​​ -Made by Java 吞吐量高一些 阿里中间件</p>
+<p>rabbitmq -Made by Erlang</p>
+<p>Kafka-</p>
+<img  src="../img/mq.jpg" align='left'/>
+
+<p>以后有更多的了解再补充性能&#x2F;功能差距</p>
+<h1 id="why"><a href="#why" class="headerlink" title="why"></a>why</h1><p>功能：解耦(双方通过mq交互)、异步、削峰</p>
+<p>应用：</p>
+<ul>
+<li>阿里双11</li>
+</ul>
+<p>问题：</p>
+<ul>
+<li>处理好新增的复杂性</li>
+<li>处理好系统可用性</li>
+</ul>
+<h1 id="how"><a href="#how" class="headerlink" title="how"></a>how</h1><p>之所以选择rabbitmq是因为rocketmq的nameserver所需要的内存太大了，更何况boker，对于1C2G的乞丐机器来说根本跑不起来</p>
+<h2 id="1-docker-run"><a href="#1-docker-run" class="headerlink" title="1.docker run"></a>1.docker run</h2><p>Because of rocketmq need more than </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker pull rabbitmq:management</span><br><span class="line"></span><br><span class="line">docker run -dit --name rabbitmq -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 rabbitmq:management</span><br><span class="line"></span><br><span class="line">--name containername</span><br><span class="line">-e RABBITMQ_DEFAULT_USER 参数用户名，密码同理</span><br><span class="line">-p 端口映射，主机：容器，15672-UI，5672-service</span><br><span class="line">rabbitmq:management image&#x27;s name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Usage"><a href="#2-Usage" class="headerlink" title="2.Usage"></a>2.Usage</h2><p>1.open chrome and input ‘localhost:15672’ or ‘192.168.1.1:15672’ then you can touch rabbitmq UI</p>
+<p>Overview–the queued msg, msg rate in your server,  some global counts, your nodes stats (if u use the above method,you only see one node in the screen ),you also can build a cluster with more nodes</p>
+<p>Connections–</p>
+<p>Channels–</p>
+<p>Exchanges–direct,fanout,headers,match,trace,topic</p>
+<p>Queses–</p>
+<p>Admin–users management with passport &amp;&amp; permission</p>
+<p>2.use 5672 in your code</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">amqp.<span class="title function_">connect</span>(&#123;</span><br><span class="line">            <span class="attr">protocol</span>: <span class="string">&#x27;amqp&#x27;</span>,</span><br><span class="line">            <span class="attr">hostname</span>: <span class="string">&#x27;example.com&#x27;</span>,<span class="comment">//localhost</span></span><br><span class="line">            <span class="attr">port</span>: <span class="string">&#x27;5672&#x27;</span>,</span><br><span class="line">            <span class="attr">username</span>: <span class="string">&#x27;admin&#x27;</span>,</span><br><span class="line">            <span class="attr">password</span>: <span class="string">&#x27;xxx&#x27;</span>,</span><br><span class="line">            <span class="attr">vhost</span>: <span class="string">&#x27;/&#x27;</span>,<span class="comment">//important</span></span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>more in official docs–&gt;<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/tutorial-one-javascript.html"> I’m doc</a></p>
+<p>or some blogs–&gt;<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wukong-holmes/p/9306733.html">I’m blog</a></p>
+<p>or my GitHub–&gt;<a target="_blank" rel="noopener" href="https://github.com/ShawnGoethe/phones/tree/master/app/controller/pmq.js">click here</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/basic/" rel="tag"># basic</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/24/2020-07-23-EventLoop2/" rel="prev" title="EventLoop Source">
+                  <i class="fa fa-angle-left"></i> EventLoop Source
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/15/2020-09-15-Chevereto/" rel="next" title="chevereto">
+                  chevereto <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

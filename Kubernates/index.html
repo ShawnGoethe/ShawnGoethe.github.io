@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="0.Hello Minikube1.Basics1.01.1Create a Cluster  master 管理cluster node 为工作节点，拥有kubelet（管理Node、与master沟通的agent）  minikube：提供k8s基本的操作，如start,stop,delete,status minikube –help minikube start kubectl：与k8s交">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kubernates">
+<meta property="og:url" content="http://example.com/Kubernates/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="0.Hello Minikube1.Basics1.01.1Create a Cluster  master 管理cluster node 为工作节点，拥有kubelet（管理Node、与master沟通的agent）  minikube：提供k8s基本的操作，如start,stop,delete,status minikube –help minikube start kubectl：与k8s交">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/img/module_01_cluster.svg">
+<meta property="og:image" content="http://example.com/img/module_02_first_app.svg">
+<meta property="og:image" content="http://example.com/img/module_03_pods.svg">
+<meta property="og:image" content="http://example.com/img/module_03_nodes.svg">
+<meta property="og:image" content="http://example.com/img/module_04_services.svg">
+<meta property="article:published_time" content="2020-03-31T02:48:01.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.744Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/module_01_cluster.svg">
+
+
+<link rel="canonical" href="http://example.com/Kubernates/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"en","comments":true,"permalink":"http://example.com/Kubernates/index.html","path":"Kubernates/index.html","title":"Kubernates"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Kubernates | Zehai's Blog
+</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-Hello-Minikube"><span class="nav-number">1.</span> <span class="nav-text">0.Hello Minikube</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Basics"><span class="nav-number">2.</span> <span class="nav-text">1.Basics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-0"><span class="nav-number">2.1.</span> <span class="nav-text">1.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1Create-a-Cluster"><span class="nav-number">2.2.</span> <span class="nav-text">1.1Create a Cluster</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2deploy-an-App"><span class="nav-number">2.3.</span> <span class="nav-text">1.2deploy an App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-Explore-App"><span class="nav-number">2.4.</span> <span class="nav-text">1.3 Explore App</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1Pods"><span class="nav-number">2.4.1.</span> <span class="nav-text">1.3.1Pods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2node"><span class="nav-number">2.4.2.</span> <span class="nav-text">1.3.2node</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3%E6%8E%92%E9%99%A4%E6%95%85%E9%9A%9C"><span class="nav-number">2.4.3.</span> <span class="nav-text">1.3.3排除故障</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-Explor-App-Public"><span class="nav-number">2.5.</span> <span class="nav-text">1.4 Explor App Public</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-Scale-App"><span class="nav-number">2.6.</span> <span class="nav-text">1.5 Scale App</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-Update-App"><span class="nav-number">2.7.</span> <span class="nav-text">1.6 Update App</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Configuration"><span class="nav-number">3.</span> <span class="nav-text">2.Configuration</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Stateless-Application"><span class="nav-number">4.</span> <span class="nav-text">3.Stateless Application</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Stateful-Application"><span class="nav-number">5.</span> <span class="nav-text">4.Stateful Application</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Clusters"><span class="nav-number">6.</span> <span class="nav-text">5.Clusters</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-Services"><span class="nav-number">7.</span> <span class="nav-text">6.Services</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner page posts-expand">
+
+
+    
+    
+    
+    <div class="post-block" lang="en"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">Kubernates
+</h1>
+
+<div class="post-meta-container">
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <h1 id="0-Hello-Minikube"><a href="#0-Hello-Minikube" class="headerlink" title="0.Hello Minikube"></a>0.Hello Minikube</h1><h1 id="1-Basics"><a href="#1-Basics" class="headerlink" title="1.Basics"></a>1.Basics</h1><h2 id="1-0"><a href="#1-0" class="headerlink" title="1.0"></a>1.0</h2><h2 id="1-1Create-a-Cluster"><a href="#1-1Create-a-Cluster" class="headerlink" title="1.1Create a Cluster"></a>1.1Create a Cluster</h2><p><img src="/../img/module_01_cluster.svg" alt="img"></p>
+<ul>
+<li>master 管理cluster</li>
+<li>node 为工作节点，拥有kubelet（管理Node、与master沟通的agent）</li>
+</ul>
+<p>minikube：提供k8s基本的操作，如start,stop,delete,status</p>
+<p>minikube –help</p>
+<p>minikube start</p>
+<p>kubectl：与k8s交互，<code>kubectl controls the Kubernetes cluster manager</code></p>
+<p>kubectl –help</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">Basic Commands (Beginner):</span><br><span class="line">  create         Create a resource from a file or from stdin.</span><br><span class="line">  expose         Take a replication controller, service, deployment or pod and expose it as a new Kubernetes Service</span><br><span class="line">  run            Run a particular image on the cluster</span><br><span class="line">  set            Set specific features on objects</span><br><span class="line"></span><br><span class="line">Basic Commands (Intermediate):</span><br><span class="line">  explain        Documentation of resources</span><br><span class="line">  get            Display one or many resources</span><br><span class="line">  edit           Edit a resource on the server</span><br><span class="line">  delete         Delete resources by filenames, stdin, resources and names, or by resources and label selector</span><br><span class="line"></span><br><span class="line">Deploy Commands:</span><br><span class="line">  rollout        Manage the rollout of a resource</span><br><span class="line">  scale          Set a new size for a Deployment, ReplicaSet or Replication Controller</span><br><span class="line">  autoscale      Auto-scale a Deployment, ReplicaSet, or ReplicationController</span><br><span class="line"></span><br><span class="line">Cluster Management Commands:</span><br><span class="line">  certificate    Modify certificate resources.</span><br><span class="line">  cluster-info   Display cluster info</span><br><span class="line">  top            Display Resource (CPU/Memory/Storage) usage.</span><br><span class="line">  cordon         Mark node as unschedulable</span><br><span class="line">  uncordon       Mark node as schedulable</span><br><span class="line">  drain          Drain node in preparation for maintenance</span><br><span class="line">  taint          Update the taints on one or more nodes</span><br><span class="line"></span><br><span class="line">Troubleshooting and Debugging Commands:</span><br><span class="line">  describe       Show details of a specific resource or group of resources</span><br><span class="line">  logs           Print the logs for a container in a pod</span><br><span class="line">  attach         Attach to a running container</span><br><span class="line">  exec           Execute a command in a container</span><br><span class="line">  port-forward   Forward one or more local ports to a pod</span><br><span class="line">  proxy          Run a proxy to the Kubernetes API server</span><br><span class="line">  cp             Copy files and directories to and from containers.</span><br><span class="line">  auth           Inspect authorization</span><br><span class="line"></span><br><span class="line">Advanced Commands:</span><br><span class="line">  diff           Diff live version against would-be applied version</span><br><span class="line">  apply          Apply a configuration to a resource by filename or stdin</span><br><span class="line">  patch          Update field(s) of a resource using strategic merge patch</span><br><span class="line">  replace        Replace a resource by filename or stdin</span><br><span class="line">  wait           Experimental: Wait for a specific condition on one or many resources.</span><br><span class="line">  convert        Convert config files between different API versions</span><br><span class="line">  kustomize      Build a kustomization target from a directory or a remote url.</span><br><span class="line"></span><br><span class="line">Settings Commands:</span><br><span class="line">  label          Update the labels on a resource</span><br><span class="line">  annotate       Update the annotations on a resource</span><br><span class="line">  completion     Output shell completion code for the specified shell (bash or zsh)</span><br><span class="line"></span><br><span class="line">Other Commands:</span><br><span class="line">  api-resources  Print the supported API resources on the server</span><br><span class="line">  api-versions   Print the supported API versions on the server, in the form of &quot;group/version&quot;</span><br><span class="line">  config         Modify kubeconfig files</span><br><span class="line">  plugin         Provides utilities for interacting with plugins.</span><br><span class="line">  version        Print the client and server version information</span><br></pre></td></tr></table></figure>
+
+<p>$ kubectl cluster-info<br>Kubernetes master is running at <a target="_blank" rel="noopener" href="https://172.17.0.14:8443/">https://172.17.0.14:8443</a><br>KubeDNS is running at <a target="_blank" rel="noopener" href="https://172.17.0.14:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy">https://172.17.0.14:8443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy</a></p>
+<p>$ kubectl get nodes<br>NAME       STATUS     ROLES    AGE   VERSION<br>minikube   NotReady   master   9s    v1.17.3</p>
+<h2 id="1-2deploy-an-App"><a href="#1-2deploy-an-App" class="headerlink" title="1.2deploy an App"></a>1.2deploy an App</h2><p>如果你配置了k8s Deployment configuration，你可以部署容器应用在k8s cluster上。当你配置了Deployment ，k8s master会schedule （按时？）通知cluster中所有的node节点上的应用。</p>
+<p>当你的app 实例创建的时候，k8s Deployment Controller会持续监测，如果部署的节点故障，Deployment Controller会给app<strong>重新换个节点</strong></p>
+<p><img src="/../img/module_02_first_app.svg" alt="img"></p>
+<p>你可以通过kubectl来create &amp; manage Deployment，kubectl使用k8s API 来和cluster交互。</p>
+<p>当你创建一个Deployment时候，你需要指定app所用的容器镜像和需要运行的副本<code>replcas</code>，当然也可以创建后更新这些信息</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">kubectl get nodes</span></span><br><span class="line">NAME       STATUS     ROLES    AGE   VERSION</span><br><span class="line">minikube   NotReady   master   15s   v1.17.3</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1</span></span><br><span class="line">deployment.apps/kubernetes-bootcamp created</span><br><span class="line">//指定deploymentname 和image Location</span><br><span class="line">//1.寻找合适node部署 2.准备部署 3.配置 新节点重启的配置</span><br><span class="line"></span><br><span class="line">//kubectl可以创建proxy来对外暴露你的服务</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">kubectl proxy</span></span><br><span class="line">Starting to serve on 127.0.0.1:8001</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">curl http://localhost:8001/version</span></span><br><span class="line">&#123;</span><br><span class="line">  &quot;major&quot;: &quot;1&quot;,</span><br><span class="line">  &quot;minor&quot;: &quot;17&quot;,</span><br><span class="line">  &quot;gitVersion&quot;: &quot;v1.17.3&quot;,</span><br><span class="line">  &quot;gitCommit&quot;: &quot;06ad960bfd03b39c8310aaf92d1e7c12ce618213&quot;,</span><br><span class="line">  &quot;gitTreeState&quot;: &quot;clean&quot;,</span><br><span class="line">  &quot;buildDate&quot;: &quot;2020-02-11T18:07:13Z&quot;,</span><br><span class="line">  &quot;goVersion&quot;: &quot;go1.13.6&quot;,</span><br><span class="line">  &quot;compiler&quot;: &quot;gc&quot;,</span><br><span class="line">  &quot;platform&quot;: &quot;linux/amd64&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-3-Explore-App"><a href="#1-3-Explore-App" class="headerlink" title="1.3 Explore App"></a>1.3 Explore App</h2><h3 id="1-3-1Pods"><a href="#1-3-1Pods" class="headerlink" title="1.3.1Pods"></a><strong>1.3.1Pods</strong></h3><p>当你create Deployment时，k8s会创建一个Pod来托管app实例，Pod是k8s abstraction，代表一组（单个或多个）app 容器，共享资源，资源包括：</p>
+<ul>
+<li>共享内存—&gt;as Volumes</li>
+<li>网络(as a unique cluster ip address)</li>
+<li>信息（如何run each container）</li>
+</ul>
+<p>pod可以关联多个app容器，将他们视作一个服务，他们有相同的ip地址，相同的端口，总是co-located &amp; co-scheduled，并分享上下文</p>
+<p>pods是k8s的最小单元，当你create deployment 时会创建pods，容器在pods内部，每个pods都绑定在刚创建的node上，直到node终止，如果node down则会在别的可用的node上部署相同的pod</p>
+<p><img src="/../img/module_03_pods.svg" alt="img"></p>
+<h3 id="1-3-2node"><a href="#1-3-2node" class="headerlink" title="1.3.2node"></a>1.3.2node</h3><p>pod始终运行在node上。node是依赖于master，运行在vm或者物理机上的worker machine。一个node可以拥有多个Pods，并且被master管理者</p>
+<p><img src="/../img/module_03_nodes.svg" alt="img"></p>
+<h3 id="1-3-3排除故障"><a href="#1-3-3排除故障" class="headerlink" title="1.3.3排除故障"></a>1.3.3排除故障</h3><ul>
+<li><strong>kubectl get</strong> - list resources</li>
+<li><strong>kubectl describe</strong> - show detailed information about a resource</li>
+<li><strong>kubectl logs</strong> - print the logs from a container in a pod</li>
+<li><strong>kubectl exec</strong> - execute a command on a container in a pod</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl describe pods</span><br><span class="line">Name:         kubernetes-bootcamp-765bf4c7b4-dnm2j</span><br><span class="line">Namespace:    default</span><br><span class="line">Priority:     0</span><br><span class="line">Node:         minikube/172.17.0.10</span><br><span class="line">Start Time:   Tue, 31 Mar 2020 05:54:38 +0000</span><br><span class="line">Labels:       pod-template-hash=765bf4c7b4</span><br><span class="line">              run=kubernetes-bootcamp</span><br><span class="line">Annotations:  &lt;none&gt;</span><br><span class="line">Status:       Running</span><br><span class="line">IP:           172.18.0.5</span><br><span class="line">IPs:</span><br><span class="line">  IP:           172.18.0.5</span><br><span class="line">Controlled By:  ReplicaSet/kubernetes-bootcamp-765bf4c7b4</span><br><span class="line">Containers:</span><br><span class="line">  kubernetes-bootcamp:</span><br><span class="line">    Container ID:   docker://2c2a5074ee7c87a4bdfe6b73db2dab8168d407642e2c76df8edd56b45441ec0b</span><br><span class="line">    Image:          gcr.io/google-samples/kubernetes-bootcamp:v1</span><br><span class="line">    Image ID:       docker-pullable://jocatalin/kubernetes-bootcamp@sha256:0d6b8ee63bb57c5f5b6156f446b3bc3b3c143d233037f3a2f00e279c8fcc64af</span><br><span class="line">    Port:           8080/TCP</span><br><span class="line">    Host Port:      0/TCP</span><br><span class="line">    State:          Running</span><br><span class="line">      Started:      Tue, 31 Mar 2020 05:54:41 +0000</span><br><span class="line">    Ready:          True</span><br><span class="line">    Restart Count:  0</span><br><span class="line">    Environment:    &lt;none&gt;</span><br><span class="line">    Mounts:</span><br><span class="line">      /var/run/secrets/kubernetes.io/serviceaccount from default-token-wk8gk (ro)</span><br><span class="line">Conditions:</span><br><span class="line">  Type              Status</span><br><span class="line">  Initialized       True</span><br><span class="line">  Ready             True</span><br><span class="line">  ContainersReady   True</span><br><span class="line">  PodScheduled      True</span><br><span class="line">Volumes:</span><br><span class="line">  default-token-wk8gk:</span><br><span class="line">    Type:        Secret (a volume populated by a Secret)</span><br><span class="line">    SecretName:  default-token-wk8gk</span><br><span class="line">    Optional:    false</span><br><span class="line">QoS Class:       BestEffort</span><br><span class="line">Node-Selectors:  &lt;none&gt;</span><br><span class="line">Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s</span><br><span class="line">                 node.kubernetes.io/unreachable:NoExecute for 300s</span><br><span class="line">Events:          &lt;none&gt;</span><br><span class="line"></span><br><span class="line">kubectl logs $POD_NAME</span><br><span class="line"></span><br><span class="line">//exec</span><br><span class="line">$ kubectl exec $POD_NAME env</span><br><span class="line">PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</span><br><span class="line">HOSTNAME=kubernetes-bootcamp-765bf4c7b4-9xxqt</span><br><span class="line">KUBERNETES_PORT_443_TCP_PROTO=tcp</span><br><span class="line">KUBERNETES_PORT_443_TCP_PORT=443</span><br><span class="line">KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1</span><br><span class="line">KUBERNETES_SERVICE_HOST=10.96.0.1</span><br><span class="line">KUBERNETES_SERVICE_PORT=443</span><br><span class="line">KUBERNETES_SERVICE_PORT_HTTPS=443</span><br><span class="line">KUBERNETES_PORT=tcp://10.96.0.1:443</span><br><span class="line">KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443</span><br><span class="line">NPM_CONFIG_LOGLEVEL=info</span><br><span class="line">NODE_VERSION=6.3.1</span><br><span class="line">HOME=/root</span><br><span class="line"></span><br><span class="line">$ kubectl exec -ti $POD_NAME bash</span><br><span class="line">root@kubernetes-bootcamp-765bf4c7b4-9xxqt:/#</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4-Explor-App-Public"><a href="#1-4-Explor-App-Public" class="headerlink" title="1.4 Explor App Public"></a>1.4 Explor App Public</h2><p>pods具备生命周期，当worker节点 die的时候，其上的pods也会lost。副本集（replicaSet）会故障时创建新的Pods保障程序正常运行</p>
+<p>k8s有一个抽象的service是定义了pods逻辑集合和访问Pod的策略，它使得pods之间解耦，使用YAML or JSON实现。pods集合通常由<em>LabelSelector</em>决定。公开服务可以通过如下方法：</p>
+<ul>
+<li>clusterIP(default)内部访问</li>
+<li>nodePort</li>
+<li>LoadBalancer</li>
+<li>ExternalName</li>
+</ul>
+<p><img src="/../img/module_04_services.svg" alt="img"></p>
+<p>通过标签的方式，可以进行逻辑标记</p>
+<ul>
+<li>标记环境ENV</li>
+<li>标记版本</li>
+<li>分类object</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl expose deployment/kubernetes-bootcamp --type=&quot;NodePort&quot; --port 8080</span><br><span class="line">service/kubernetes-bootcamp exposed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ kubectl describe deployment</span><br><span class="line">Name:                   kubernetes-bootcamp</span><br><span class="line">Namespace:              default</span><br><span class="line">CreationTimestamp:      Wed, 01 Apr 2020 08:44:09 +0000</span><br><span class="line">Labels:                 run=kubernetes-bootcamp</span><br><span class="line">Annotations:            deployment.kubernetes.io/revision: 1</span><br><span class="line">Selector:               run=kubernetes-bootcamp</span><br><span class="line">Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable</span><br><span class="line">StrategyType:           RollingUpdate</span><br><span class="line">MinReadySeconds:        0</span><br><span class="line">RollingUpdateStrategy:  25% max unavailable, 25% max surge</span><br><span class="line">Pod Template:</span><br><span class="line">  Labels:  run=kubernetes-bootcamp</span><br><span class="line">  Containers:</span><br><span class="line">   kubernetes-bootcamp:</span><br><span class="line">    Image:        gcr.io/google-samples/kubernetes-bootcamp:v1</span><br><span class="line">    Port:         8080/TCP</span><br><span class="line">    Host Port:    0/TCP</span><br><span class="line">    Environment:  &lt;none&gt;</span><br><span class="line">    Mounts:       &lt;none&gt;</span><br><span class="line">  Volumes:        &lt;none&gt;</span><br><span class="line">Conditions:</span><br><span class="line">  Type           Status  Reason</span><br><span class="line">  ----           ------  ------</span><br><span class="line">  Available      True    MinimumReplicasAvailable</span><br><span class="line">  Progressing    True    NewReplicaSetAvailable</span><br><span class="line">OldReplicaSets:  &lt;none&gt;</span><br><span class="line">NewReplicaSet:   kubernetes-bootcamp-765bf4c7b4 (1/1 replicas created)</span><br><span class="line">Events:</span><br><span class="line">  Type    Reason             Age    From                   Message</span><br><span class="line">  ----    ------             ----   ----                   -------</span><br><span class="line">  Normal  ScalingReplicaSet  5m44s  deployment-controller  Scaled up replica set kubernetes-bootcamp-765bf4c7b4 to 1</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-5-Scale-App"><a href="#1-5-Scale-App" class="headerlink" title="1.5 Scale App"></a>1.5 Scale App</h2><h2 id="1-6-Update-App"><a href="#1-6-Update-App" class="headerlink" title="1.6 Update App"></a>1.6 Update App</h2><h1 id="2-Configuration"><a href="#2-Configuration" class="headerlink" title="2.Configuration"></a>2.Configuration</h1><h1 id="3-Stateless-Application"><a href="#3-Stateless-Application" class="headerlink" title="3.Stateless Application"></a>3.Stateless Application</h1><h1 id="4-Stateful-Application"><a href="#4-Stateful-Application" class="headerlink" title="4.Stateful Application"></a>4.Stateful Application</h1><h1 id="5-Clusters"><a href="#5-Clusters" class="headerlink" title="5.Clusters"></a>5.Clusters</h1><h1 id="6-Services"><a href="#6-Services" class="headerlink" title="6.Services"></a>6.Services</h1>
+      </div>
+      
+      
+      
+    </div>
+
+    
+    
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

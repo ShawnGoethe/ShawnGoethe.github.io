@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="problem很多人可能都有hexo博客，会有一个githubname.github.io的地址，然后自己可能想去买一个域名，方便记忆，但是解析后迟迟用不了，该文章就来详细描述一下步骤。 solution1.拥有一个githubname.github.io可以正常访问的域名，如我的GitHub博客：https:&#x2F;&#x2F;shawngoethe.github.io 2.购买域名，个人推荐阿里云，首年年费比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何将域名绑定到hexo">
+<meta property="og:url" content="http://example.com/2019/03/12/2019-03-12-%E5%A6%82%E4%BD%95%E5%B0%86%E5%9F%9F%E5%90%8D%E7%BB%91%E5%AE%9A%E5%88%B0hexo/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="problem很多人可能都有hexo博客，会有一个githubname.github.io的地址，然后自己可能想去买一个域名，方便记忆，但是解析后迟迟用不了，该文章就来详细描述一下步骤。 solution1.拥有一个githubname.github.io可以正常访问的域名，如我的GitHub博客：https:&#x2F;&#x2F;shawngoethe.github.io 2.购买域名，个人推荐阿里云，首年年费比">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-03-12T09:44:20.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.752Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2019/03/12/2019-03-12-%E5%A6%82%E4%BD%95%E5%B0%86%E5%9F%9F%E5%90%8D%E7%BB%91%E5%AE%9A%E5%88%B0hexo/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2019/03/12/2019-03-12-%E5%A6%82%E4%BD%95%E5%B0%86%E5%9F%9F%E5%90%8D%E7%BB%91%E5%AE%9A%E5%88%B0hexo/","path":"2019/03/12/2019-03-12-如何将域名绑定到hexo/","title":"如何将域名绑定到hexo"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何将域名绑定到hexo | Zehai's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#problem"><span class="nav-number">1.</span> <span class="nav-text">problem</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#solution"><span class="nav-number">2.</span> <span class="nav-text">solution</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/12/2019-03-12-%E5%A6%82%E4%BD%95%E5%B0%86%E5%9F%9F%E5%90%8D%E7%BB%91%E5%AE%9A%E5%88%B0hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何将域名绑定到hexo | Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何将域名绑定到hexo
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-03-12 17:44:20" itemprop="dateCreated datePublished" datetime="2019-03-12T17:44:20+08:00">2019-03-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-04-07 22:34:12" itemprop="dateModified" datetime="2024-04-07T22:34:12+08:00">2024-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/others/" itemprop="url" rel="index"><span itemprop="name">others</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h1><p>很多人可能都有hexo博客，会有一个githubname.github.io的地址，然后自己可能想去买一个域名，方便记忆，但是解析后迟迟用不了，该文章就来详细描述一下步骤。</p>
+<h1 id="solution"><a href="#solution" class="headerlink" title="solution"></a>solution</h1><p>1.拥有一个githubname.github.io可以正常访问的域名，如我的GitHub博客：<a target="_blank" rel="noopener" href="https://shawngoethe.github.io/">https://shawngoethe.github.io</a></p>
+<p>2.购买域名，个人推荐阿里云，首年年费比较便宜，适合个人折腾，博客建议com,me,info,pro（专家）,mobi(kindle电子书的格式)，再不济可以选择tech，cc之类的，国外可以参考Linost之类的网页</p>
+<p>3.购买域名进行实名认证，否则无法使用</p>
+<p>4.进行解析：记录类型CNAME（进行转发），主机记录@（避免主机记录选择www，输入域名要多写www），记录值为shawngoethe.github.io,TTL选择10分钟就可以了</p>
+<blockquote>
+<p>上述方法属于将我购买的zehai.info转发到了shawngoethe.github.io,还可以“记录类型”选择“A”来填写IPv4的地址，地址可以通过ping shawngoethe.github.io 来获得</p>
+</blockquote>
+<p>5.<strong>修改代码</strong>：很多人忽视了要在源代码&#x2F;hexoblog&#x2F;source&#x2F;目录下添加CNAME文件（注意没有尾缀），然后在该文件下填写zehai.info（可以兼容，<a target="_blank" rel="noopener" href="http://www.zehai.info/">www.zehai.info</a>  和 zehai.info 两种访问方式，但如果填写 <a target="_blank" rel="noopener" href="http://www.zehai.info/">www.zehai.info</a> 则只支持 <a target="_blank" rel="noopener" href="http://www.zehai.info/">www.zehai.info</a> 一种访问方式）</p>
+<p>6.等十分钟左右，让解析生效，好了，你可以访问<a href="zehai.info"><strong>我的hexo</strong></a>获取更多内容</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/10/2019-03-10-MaximumSubarray/" rel="prev" title="MaximumSubarray">
+                  <i class="fa fa-angle-left"></i> MaximumSubarray
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/12/2019-03-12-%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AEhexo%E7%9A%84favico/" rel="next" title="如何设置hexo的favico">
+                  如何设置hexo的favico <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

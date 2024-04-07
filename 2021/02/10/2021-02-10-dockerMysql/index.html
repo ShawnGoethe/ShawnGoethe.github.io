@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="link:mysql-docker  支持标签 8.0.23, 8.0, 8, latest 5.7.33, 5.7, 5 5.6.51, 5.6  快速手册 issues: https:&#x2F;&#x2F;github.com&#x2F;docker-library&#x2F;mysql&#x2F;issues 支持平台: (more info) amd64 发布image 详情: repo-info repo’s repos&#x2F;mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dockerMysql">
+<meta property="og:url" content="http://example.com/2021/02/10/2021-02-10-dockerMysql/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="link:mysql-docker  支持标签 8.0.23, 8.0, 8, latest 5.7.33, 5.7, 5 5.6.51, 5.6  快速手册 issues: https:&#x2F;&#x2F;github.com&#x2F;docker-library&#x2F;mysql&#x2F;issues 支持平台: (more info) amd64 发布image 详情: repo-info repo’s repos&#x2F;mysql">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-02-10T06:54:33.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.768Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2021/02/10/2021-02-10-dockerMysql/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2021/02/10/2021-02-10-dockerMysql/","path":"2021/02/10/2021-02-10-dockerMysql/","title":"dockerMysql"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>dockerMysql | Zehai's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E6%A0%87%E7%AD%BE"><span class="nav-number">1.</span> <span class="nav-text">支持标签</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%89%8B%E5%86%8C"><span class="nav-number">2.</span> <span class="nav-text">快速手册</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-MySQL"><span class="nav-number">3.</span> <span class="nav-text">什么是 MySQL?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8mysql-image"><span class="nav-number">4.</span> <span class="nav-text">如何使用mysql image</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-mysql-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.1.</span> <span class="nav-text">创建 mysql 服务实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87mysql%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5mysql"><span class="nav-number">4.2.</span> <span class="nav-text">通过mysql命令行连接mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8docker-stack-%E6%88%96docker-compose%E9%83%A8%E7%BD%B2"><span class="nav-number">4.3.</span> <span class="nav-text">使用docker stack 或docker-compose部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell%E8%AE%BF%E9%97%AE%E6%9F%A5%E7%9C%8B-MySQL-%E6%97%A5%E5%BF%97"><span class="nav-number">4.4.</span> <span class="nav-text">shell访问查看 MySQL 日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-MySQL-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">4.5.</span> <span class="nav-text">自定义 MySQL 配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8cnf-%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">4.5.1.</span> <span class="nav-text">不使用cnf 文件配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">4.6.</span> <span class="nav-text">环境变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MYSQL-ROOT-PASSWORD"><span class="nav-number">4.6.1.</span> <span class="nav-text">MYSQL_ROOT_PASSWORD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MYSQL-DATABASE"><span class="nav-number">4.6.2.</span> <span class="nav-text">MYSQL_DATABASE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MYSQL-USER-MYSQL-PASSWORD"><span class="nav-number">4.6.3.</span> <span class="nav-text">MYSQL_USER, MYSQL_PASSWORD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MYSQL-ALLOW-EMPTY-PASSWORD"><span class="nav-number">4.6.4.</span> <span class="nav-text">MYSQL_ALLOW_EMPTY_PASSWORD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MYSQL-RANDOM-ROOT-PASSWORD"><span class="nav-number">4.6.5.</span> <span class="nav-text">MYSQL_RANDOM_ROOT_PASSWORD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MYSQL-ONETIME-PASSWORD"><span class="nav-number">4.6.6.</span> <span class="nav-text">MYSQL_ONETIME_PASSWORD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MYSQL-INITDB-SKIP-TZINFO"><span class="nav-number">4.6.7.</span> <span class="nav-text">MYSQL_INITDB_SKIP_TZINFO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Secrets"><span class="nav-number">4.7.</span> <span class="nav-text">Docker Secrets</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B0%E5%AE%9E%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text">初始化新实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Caveats-%E5%91%8A%E8%AF%AB"><span class="nav-number">6.</span> <span class="nav-text">Caveats&#x2F;&#x2F;告诫</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%9C%A8%E5%93%AA%E9%87%8C"><span class="nav-number">6.1.</span> <span class="nav-text">数据存储在哪里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E5%88%B0%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AE%8C%E6%88%90%E6%89%8D%E6%9C%89%E8%BF%9E%E6%8E%A5"><span class="nav-number">6.2.</span> <span class="nav-text">直到初始化完成才有连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8"><span class="nav-number">6.3.</span> <span class="nav-text">现用数据库使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E8%BF%90%E8%A1%8C"><span class="nav-number">6.4.</span> <span class="nav-text">以任意用户身份运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%A4%87%E4%BB%BD"><span class="nav-number">6.5.</span> <span class="nav-text">创建备份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E5%A4%87%E4%BB%BD%E8%BF%98%E5%8E%9F%E6%95%B0%E6%8D%AE"><span class="nav-number">6.6.</span> <span class="nav-text">从备份还原数据</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/10/2021-02-10-dockerMysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="dockerMysql | Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          dockerMysql
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-10 14:54:33" itemprop="dateCreated datePublished" datetime="2021-02-10T14:54:33+08:00">2021-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-04-07 22:34:12" itemprop="dateModified" datetime="2024-04-07T22:34:12+08:00">2024-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>link:<a target="_blank" rel="noopener" href="https://hub.docker.com/_/mysql?tab=description&page=1&ordering=last_updated">mysql-docker</a></p>
+</blockquote>
+<h1 id="支持标签"><a href="#支持标签" class="headerlink" title="支持标签"></a>支持标签</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/docker-library/mysql/blob/2966bfbd71cf370770cd880aa45f3c8f155d0aae/8.0/Dockerfile.debian"><code>8.0.23</code>, <code>8.0</code>, <code>8</code>, <code>latest</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/docker-library/mysql/blob/2966bfbd71cf370770cd880aa45f3c8f155d0aae/5.7/Dockerfile.debian"><code>5.7.33</code>, <code>5.7</code>, <code>5</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/docker-library/mysql/blob/2966bfbd71cf370770cd880aa45f3c8f155d0aae/5.6/Dockerfile.debian"><code>5.6.51</code>, <code>5.6</code></a></li>
+</ul>
+<h1 id="快速手册"><a href="#快速手册" class="headerlink" title="快速手册"></a>快速手册</h1><ul>
+<li><strong>issues</strong>: <a target="_blank" rel="noopener" href="https://github.com/docker-library/mysql/issues">https://github.com/docker-library/mysql/issues</a></li>
+<li><strong>支持平台</strong>: (<a target="_blank" rel="noopener" href="https://github.com/docker-library/official-images#architectures-other-than-amd64">more info</a>) <a target="_blank" rel="noopener" href="https://hub.docker.com/r/amd64/mysql/"><code>amd64</code></a></li>
+<li><strong>发布image 详情</strong>: <a target="_blank" rel="noopener" href="https://github.com/docker-library/repo-info/blob/master/repos/mysql">repo-info repo’s <code>repos/mysql/</code> directory</a> (<a target="_blank" rel="noopener" href="https://github.com/docker-library/repo-info/commits/master/repos/mysql">history</a>) (image metadata, transfer size, etc)</li>
+<li><strong>Image 更新</strong>: <a target="_blank" rel="noopener" href="https://github.com/docker-library/official-images/issues?q=label:library/mysql">official-images repo’s <code>library/mysql</code> label</a><br><a target="_blank" rel="noopener" href="https://github.com/docker-library/official-images/blob/master/library/mysql">official-images repo’s <code>library/mysql</code> file</a> (<a target="_blank" rel="noopener" href="https://github.com/docker-library/official-images/commits/master/library/mysql">history</a>)</li>
+<li><strong>描述来源</strong>: <a target="_blank" rel="noopener" href="https://github.com/docker-library/docs/tree/master/mysql">docs repo’s <code>mysql/</code> directory</a> (<a target="_blank" rel="noopener" href="https://github.com/docker-library/docs/commits/master/mysql">history</a>)</li>
+</ul>
+<h1 id="什么是-MySQL"><a href="#什么是-MySQL" class="headerlink" title="什么是 MySQL?"></a>什么是 MySQL?</h1><p>MySQL 是最受欢迎的，开源的数据库. 凭借被验证过的性能表现，可靠性，易用性, MySQL已经成为基于web的应用程序的 主要选择,包括完整得个人项目和网站项目（电子上午，信息服务）,也包括优秀的Facebook Facebook, Twitter, YouTube, Yahoo! </p>
+<h1 id="如何使用mysql-image"><a href="#如何使用mysql-image" class="headerlink" title="如何使用mysql image"></a>如何使用mysql image</h1><h2 id="创建-mysql-服务实例"><a href="#创建-mysql-服务实例" class="headerlink" title="创建 mysql 服务实例"></a>创建 <code>mysql</code> 服务实例</h2><p>启动 MySQL 比较简单:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>some-mysql 容器名称</li>
+<li>my-secret-pw 是root账户的密码</li>
+<li>tag 是mysql的版本</li>
+</ul>
+<h2 id="通过mysql命令行连接mysql"><a href="#通过mysql命令行连接mysql" class="headerlink" title="通过mysql命令行连接mysql"></a>通过mysql命令行连接mysql</h2><p>以下命令可以启动mysql容器并运行终端，执行SQL语句</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --network some-network --<span class="built_in">rm</span> mysql mysql -hsome-mysql -uexample-user -p</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>some-mysql 容器名称</li>
+<li>some-network 连接网络（方便容器间访问）</li>
+</ul>
+<p>也可以直接运行客户端，访问远程数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --rm mysql mysql -hsome.mysql.host -usome-mysql-user -p</span><br></pre></td></tr></table></figure>
+
+<p>更多命令请访问 <a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/en/mysql.html">MySQL documentation</a></p>
+<h2 id="使用docker-stack-或docker-compose部署"><a href="#使用docker-stack-或docker-compose部署" class="headerlink" title="使用docker stack 或docker-compose部署"></a>使用docker stack 或docker-compose部署</h2><p>示例<code>stack.yml</code></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Use root/example as user/password credentials</span></span><br><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.1&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">--default-authentication-plugin=mysql_native_password</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">example</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">adminer:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">adminer</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8080</span><span class="string">:8080</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>docker stack deploy -c stack.yml mysql</code> </li>
+<li><code>docker-compose -f stack.yml up</code></li>
+</ul>
+<p>启动后, 访问 <code>http://swarm-ip:8080</code>, <code>http://localhost:8080</code>, or <code>http://host-ip:8080</code> </p>
+<h2 id="shell访问查看-MySQL-日志"><a href="#shell访问查看-MySQL-日志" class="headerlink" title="shell访问查看 MySQL 日志"></a>shell访问查看 MySQL 日志</h2><p>使用 <code>docker exec</code> 可以让你在容器内执行命令，命令如下 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -it some-mysql bash</span><br></pre></td></tr></table></figure>
+
+<p>容器日志:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker logs some-mysql</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义-MySQL-配置文件"><a href="#自定义-MySQL-配置文件" class="headerlink" title="自定义 MySQL 配置文件"></a>自定义 MySQL 配置文件</h2><p>mysql默认配置文件在 <code>/etc/mysql/my.cnf</code>, 也可能指定了额外文件如： <code>/etc/mysql/conf.d</code> or <code>/etc/mysql/mysql.conf.d</code>. 请检查mysqlimage本身的相关文件和目录以了解更多信息</p>
+<p>如果 <code>/my/custom/config-file.cnf</code> 是你自定义的文件未知和名字, 你可以这样启动你的<code>mysql</code> 容器 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name some-mysql -v /my/custom:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag</span><br></pre></td></tr></table></figure>
+
+<p>你会启动一个用你自定义配置 <code>/etc/mysql/my.cnf</code> and <code>/etc/mysql/conf.d/config-file.cnf</code>, 的mysql容器</p>
+<h3 id="不使用cnf-文件配置"><a href="#不使用cnf-文件配置" class="headerlink" title="不使用cnf 文件配置"></a>不使用<code>cnf</code> 文件配置</h3><p>很多配置都可以传给 <code>mysqld</code>. 使你自定义容器而不需要 <code>cnf</code> 文件. 如当你想改变默认编码和排序规则，使用 UTF-8 (<code>utf8mb4</code>) 只需要执行如下命令:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci</span><br></pre></td></tr></table></figure>
+
+<p>如果你想看到所有的配置项，只需要执行:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --<span class="built_in">rm</span> mysql:tag --verbose --<span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>docker run 时，可以一个或多个参数进行配置. 不过需要注意，如果使用已经包含数据库的数据目录启动容器，以下变量不会产生影响，在启动时，任何预先存在的数据库都保持不变，任何之前存在的数据库在容器启动时将保持不变.</p>
+<h3 id="MYSQL-ROOT-PASSWORD"><a href="#MYSQL-ROOT-PASSWORD" class="headerlink" title="MYSQL_ROOT_PASSWORD"></a><code>MYSQL_ROOT_PASSWORD</code></h3><p>该变量是必须的，是root账户的密码.</p>
+<h3 id="MYSQL-DATABASE"><a href="#MYSQL-DATABASE" class="headerlink" title="MYSQL_DATABASE"></a><code>MYSQL_DATABASE</code></h3><p>该变量可选，允许在启动时，指定数据库的名称. 如果提供了用户名&#x2F;密码，用户会被赋予超级权限.</p>
+<h3 id="MYSQL-USER-MYSQL-PASSWORD"><a href="#MYSQL-USER-MYSQL-PASSWORD" class="headerlink" title="MYSQL_USER, MYSQL_PASSWORD"></a><code>MYSQL_USER</code>, <code>MYSQL_PASSWORD</code></h3><p>可选变量，用于创建新用户和密码，用户将获得超级管理员权限，两个参数都是必须的.</p>
+<p>注意：不需要使用该机制来创建root超级用户，默认使用 <code>MYSQL_ROOT_PASSWORD</code> 来创建密码</p>
+<h3 id="MYSQL-ALLOW-EMPTY-PASSWORD"><a href="#MYSQL-ALLOW-EMPTY-PASSWORD" class="headerlink" title="MYSQL_ALLOW_EMPTY_PASSWORD"></a><code>MYSQL_ALLOW_EMPTY_PASSWORD</code></h3><p>可选变量，设置非空值（如yes），允许root用户无密码启动容器. <em>注意</em>: 除非你知道你在做什么，否则不建议设置为 <code>yes</code> ,因为这将使mysql实例完全不受保护,允许所有人获得完全的超级用户权限.</p>
+<h3 id="MYSQL-RANDOM-ROOT-PASSWORD"><a href="#MYSQL-RANDOM-ROOT-PASSWORD" class="headerlink" title="MYSQL_RANDOM_ROOT_PASSWORD"></a><code>MYSQL_RANDOM_ROOT_PASSWORD</code></h3><p>可选变量，设置非空值（如yes）,使用pwgen , 为root用户随机生成密码 .密码将被打印.</p>
+<h3 id="MYSQL-ONETIME-PASSWORD"><a href="#MYSQL-ONETIME-PASSWORD" class="headerlink" title="MYSQL_ONETIME_PASSWORD"></a><code>MYSQL_ONETIME_PASSWORD</code></h3><p>设置用户 初始化完成后过期，在首次登录时候强制修改密码. 任何非空值将激活这个配置，注意：仅支持5.6+版本，以下版本会报错</p>
+<h3 id="MYSQL-INITDB-SKIP-TZINFO"><a href="#MYSQL-INITDB-SKIP-TZINFO" class="headerlink" title="MYSQL_INITDB_SKIP_TZINFO"></a><code>MYSQL_INITDB_SKIP_TZINFO</code></h3><p>默认，entrypoint脚本自动加载<code>CONVERT_TZ()</code>函数需要的时区数据，如果不需要，任何非空值都将禁用时区加载</p>
+<h2 id="Docker-Secrets"><a href="#Docker-Secrets" class="headerlink" title="Docker Secrets"></a>Docker Secrets</h2><p>通过环境变量传递敏感信息，还有另一种方法, <code>_FILE</code>  可以附加到前面列的环境变量，使得可以从文件中的变量初始化脚本，特别是，这可以用于存在<code>/run/secrets/&lt;secret_name&gt;</code>中的docker screts从加载密码, 如 ：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name some-mysql -e MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root -d mysql:tag</span><br></pre></td></tr></table></figure>
+
+<p>目前仅支持： <code>MYSQL_ROOT_PASSWORD</code>, <code>MYSQL_ROOT_HOST</code>, <code>MYSQL_DATABASE</code>, <code>MYSQL_USER</code>, 和<code>MYSQL_PASSWORD</code>.</p>
+<h1 id="初始化新实例"><a href="#初始化新实例" class="headerlink" title="初始化新实例"></a>初始化新实例</h1><p>刚启动容器,指定名字的新数据库会被创建，并且根据提供的变量初始化. 此外,它将执行扩展名为<code>.sh</code>, <code>.sql</code> 和 <code>.sql.gz</code> （ <code>/docker-entrypoint-initdb.d</code>文件夹中）.文件将按照字幕顺序执行. 你可以轻松使用dump备份填充，. 默认情况下，sql文件将被保存在 <code>MYSQL_DATABASE</code> 指定的数据库中.</p>
+<h1 id="Caveats-告诫"><a href="#Caveats-告诫" class="headerlink" title="Caveats&#x2F;&#x2F;告诫"></a>Caveats&#x2F;&#x2F;告诫</h1><h2 id="数据存储在哪里"><a href="#数据存储在哪里" class="headerlink" title="数据存储在哪里"></a>数据存储在哪里</h2><p>重要内容：有几种方式在容器运行时存储数据. 我们推荐 <code>mysql</code> 用户熟悉可用的选项,包括:</p>
+<ul>
+<li>让docker使用自己的内部volume 将数据库文件写入主机系统上的磁盘（而不在容器内）从而管理数据库数据的存储。这也是默认的配置，也非常简单透明。缺点是相比直接部署<strong>找文件困难</strong>.</li>
+<li>在主机上创建一个数据目录，并将其装载到容器内部的一个目录中，使得数据库文件放置在主机已知的位置上，更轻松访问文件，缺点是需要确保目录存在，且有权限和安全机制</li>
+</ul>
+<p>Docker 文档是理解不同存储选项和变量的最好起步，并且有很多博客论坛讨论并提供建议，我们将简单展示基本过程:</p>
+<ol>
+<li><p>创建文件夹在主机如 <code>/my/own/datadir</code>.</p>
+</li>
+<li><p>启动 <code>mysql</code> 容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name some-mysql -v /my/own/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p> <code>-v /my/own/datadir:/var/lib/mysql</code> 将 <code>/my/own/datadir</code> 目录从主机装入容器中作为 <code>/var/lib/mysql</code>  默认不传-v情况下，mysql将写入其他数据文件.</p>
+<h2 id="直到初始化完成才有连接"><a href="#直到初始化完成才有连接" class="headerlink" title="直到初始化完成才有连接"></a>直到初始化完成才有连接</h2><p>如果容器启动没有初始化数据库，则创建默认数据库. 初始化完成之前不会接受传入连接. 在使用自动化工具如 <code>docker-compose</code>同时启动多个容器时,这可能会导致问题.</p>
+<p>如果应用尝试连接不提供服务的mysql，需要继续重试等待连接成功. 官方示例, 详见 <a target="_blank" rel="noopener" href="https://github.com/docker-library/wordpress/blob/1b48b4bccd7adb0f7ea1431c7b470a40e186f3da/docker-entrypoint.sh#L195-L235">WordPress</a> or <a target="_blank" rel="noopener" href="https://github.com/docker-library/docs/blob/9660a0cccb87d8db842f33bc0578d769caaf3ba9/bonita/stack.yml#L28-L44">Bonita</a>.</p>
+<h2 id="现用数据库使用"><a href="#现用数据库使用" class="headerlink" title="现用数据库使用"></a>现用数据库使用</h2><p>如果在一个有mysql数据目录的volume启动mqsql，应省略 <code>$MYSQL_ROOT_PASSWORD</code>命令; 及时填写也不会生效, 且不会更改预先存在的数据库.</p>
+<h2 id="以任意用户身份运行"><a href="#以任意用户身份运行" class="headerlink" title="以任意用户身份运行"></a>以任意用户身份运行</h2><p>如果你正确设置了目录权限，或者你需要使用特定的uid&#x2F;gid运行mysqld，则可以通过 <code>--user</code> 设为任意值（root&#x2F;0外）来实现所需的权限&#x2F;配置:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> data</span><br><span class="line">$ <span class="built_in">ls</span> -lnd data</span><br><span class="line">drwxr-xr-x 2 1000 1000 4096 Aug 27 15:54 data</span><br><span class="line">$ docker run -v <span class="string">&quot;<span class="variable">$PWD</span>/data&quot;</span>:/var/lib/mysql --user 1000:1000 --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建备份"><a href="#创建备份" class="headerlink" title="创建备份"></a>创建备份</h2><p>大多数工具都会正常工作,尽管他们的使用在某些情况下可能有点复杂， 以确保可以访问mysqld服务器，确保这一点的一个简单方法是使用 <code>docker exec</code> 并从同一容器运行工具，如:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> some-mysql sh -c <span class="string">&#x27;exec mysqldump --all-databases -uroot -p&quot;$MYSQL_ROOT_PASSWORD&quot;&#x27;</span> &gt; /some/path/on/your/host/all-databases.sql</span><br></pre></td></tr></table></figure>
+
+<h2 id="从备份还原数据"><a href="#从备份还原数据" class="headerlink" title="从备份还原数据"></a>从备份还原数据</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker <span class="built_in">exec</span> -i some-mysql sh -c <span class="string">&#x27;exec mysql -uroot -p&quot;$MYSQL_ROOT_PASSWORD&quot;&#x27;</span> &lt; /some/path/on/your/host/all-databases.sqlwith any relevant licenses <span class="keyword">for</span> all software contained within.1</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/15/2021-01-15-currying/" rel="prev" title="currying">
+                  <i class="fa fa-angle-left"></i> currying
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/07/2021-03-07-prototype/" rel="next" title="prototype">
+                  prototype <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

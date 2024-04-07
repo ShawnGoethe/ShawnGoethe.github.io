@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha256-wiz7ZSCn/btzhjKDQBms9Hx4sSeUYsDrTLg7roPstac=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="今天中午有收到Egg团队公开的文件调查，提及了很多技术名词，虽然不一定用到，但我也觉得列举出来会方便大家了解和比较，后续可能更新我用过的部分 代码检查工具  ESLint  JSCS  JSHint  JSDoc  Standard  TSLint  Flow      引入目的：规范代码    ESLint 通过extend继承某一个大类，然后配置rules来进行代码规范   JSCS    J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020-02-28-JS相关技术名词">
+<meta property="og:url" content="http://example.com/2020/02/28/2020-02-28-JS%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF%E5%90%8D%E8%AF%8D/index.html">
+<meta property="og:site_name" content="Zehai&#39;s Blog">
+<meta property="og:description" content="今天中午有收到Egg团队公开的文件调查，提及了很多技术名词，虽然不一定用到，但我也觉得列举出来会方便大家了解和比较，后续可能更新我用过的部分 代码检查工具  ESLint  JSCS  JSHint  JSDoc  Standard  TSLint  Flow      引入目的：规范代码    ESLint 通过extend继承某一个大类，然后配置rules来进行代码规范   JSCS    J">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-28T12:07:43.000Z">
+<meta property="article:modified_time" content="2024-04-07T14:34:12.761Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="List">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2020/02/28/2020-02-28-JS%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF%E5%90%8D%E8%AF%8D/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2020/02/28/2020-02-28-JS%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF%E5%90%8D%E8%AF%8D/","path":"2020/02/28/2020-02-28-JS相关技术名词/","title":"2020-02-28-JS相关技术名词"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2020-02-28-JS相关技术名词 | Zehai's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Zehai's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%A3%80%E6%9F%A5%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">代码检查工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%84%9F%E5%8F%97"><span class="nav-number">1.1.</span> <span class="nav-text">使用感受</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BD%AC%E4%B9%89%E8%AF%AD%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">转义语言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WEB%E6%A1%86%E6%9E%B6"><span class="nav-number">3.</span> <span class="nav-text">WEB框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">反向代理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">进程管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RPC%E6%96%B9%E5%BC%8F"><span class="nav-number">7.</span> <span class="nav-text">RPC方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%9C%BA%E6%99%AF"><span class="nav-number">8.</span> <span class="nav-text">开发场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tips"><span class="nav-number">8.0.0.1.</span> <span class="nav-text">tips</span></a></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">106</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/28/2020-02-28-JS%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF%E5%90%8D%E8%AF%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2020-02-28-JS相关技术名词 | Zehai's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2020-02-28-JS相关技术名词
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-02-28 20:07:43" itemprop="dateCreated datePublished" datetime="2020-02-28T20:07:43+08:00">2020-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-04-07 22:34:12" itemprop="dateModified" datetime="2024-04-07T22:34:12+08:00">2024-04-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>今天中午有收到Egg团队公开的文件调查，提及了很多技术名词，虽然不一定用到，但我也觉得列举出来会方便大家了解和比较，后续可能更新我用过的部分</p>
+<h1 id="代码检查工具"><a href="#代码检查工具" class="headerlink" title="代码检查工具"></a>代码检查工具</h1><ul>
+<li><input checked="" disabled="" type="checkbox"> ESLint</li>
+<li><input disabled="" type="checkbox"> JSCS</li>
+<li><input disabled="" type="checkbox"> JSHint</li>
+<li><input disabled="" type="checkbox"> JSDoc</li>
+<li><input disabled="" type="checkbox"> Standard</li>
+<li><input disabled="" type="checkbox"> TSLint</li>
+<li><input disabled="" type="checkbox"> Flow</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th>引入目的：规范代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ESLint</td>
+<td>通过extend继承某一个大类，然后配置rules来进行代码规范</td>
+</tr>
+<tr>
+<td align="left">JSCS</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">JSHint</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">JSDoc</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">Standard</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">TSLint</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">Flow</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="使用感受"><a href="#使用感受" class="headerlink" title="使用感受"></a>使用感受</h2><p>解决了以下问题</p>
+<ul>
+<li>node是一门弱语言，进行校验（非变量类型校验，仅校验变量是否声明，是否可改等）</li>
+<li>node在use strict模式下，eslint可以校验</li>
+<li>团队合作，防止队友挖坑</li>
+</ul>
+<p>其实ESLint只是一种语法校验，更多的还有流程上的规范，就像网传阿里的开发规范一样，就好比node中你可以用类的语法糖，也可以用原型，当一件事情有多种实现方式时，需要规范来选择一个普遍公用的，易维护，易扩展的方案</p>
+<p>除去语法校验，还有TS的类型校验，比如GIT的分支规范，如master,staging,backup,develop,other branch</p>
+<h1 id="转义语言"><a href="#转义语言" class="headerlink" title="转义语言"></a>转义语言</h1><ul>
+<li><input checked="" disabled="" type="checkbox"> TS</li>
+<li><input disabled="" type="checkbox"> ClojureScript</li>
+<li><input disabled="" type="checkbox"> CoffeeScript</li>
+<li><input disabled="" type="checkbox"> Dart</li>
+<li><input disabled="" type="checkbox"> Elm</li>
+<li><input disabled="" type="checkbox"> Scala.js</li>
+<li><input disabled="" type="checkbox"> Haxe</li>
+<li><input disabled="" type="checkbox"> Nim</li>
+<li><input disabled="" type="checkbox"> PureScript</li>
+<li><input disabled="" type="checkbox"> Reason</li>
+</ul>
+<p>转移语言是2019年聊的比较多的，解决问题：</p>
+<ul>
+<li>类型校验，能够很好解决JS开发中，你不知道这个object里面有什么key，或者某个对象里面有什么方法（egg.js实际开发过程中，ctx.service.v1.handlexxx()就ctrl跳转不了，也不会有提示）</li>
+</ul>
+<h1 id="WEB框架"><a href="#WEB框架" class="headerlink" title="WEB框架"></a>WEB框架</h1><ul>
+<li><input checked="" disabled="" type="checkbox"> Express</li>
+<li><input checked="" disabled="" type="checkbox"> Koa</li>
+<li><input checked="" disabled="" type="checkbox"> Egg</li>
+<li><input disabled="" type="checkbox"> Nest.js</li>
+<li><input disabled="" type="checkbox"> Next.js</li>
+<li><input disabled="" type="checkbox"> Fastify.js</li>
+<li><input disabled="" type="checkbox"> Hapi.js</li>
+<li><input disabled="" type="checkbox"> Restify.js</li>
+<li><input disabled="" type="checkbox"> Loopback.io</li>
+<li><input disabled="" type="checkbox"> Sails.js</li>
+<li><input disabled="" type="checkbox"> Midway.js</li>
+</ul>
+<p>面试常被问到框架的问题，因为很多公司不会将项目搭建在原生的node服务上</p>
+<ul>
+<li>缺少约束，合作模式下，个人有个人的风格</li>
+<li>项目配置繁琐，很多东西配置零散堆放</li>
+<li>重复造轮子，框架提供较好的轮子</li>
+<li>安全事宜，框架处理</li>
+<li>etc</li>
+</ul>
+<p>一个好的框架事半功倍，<br><a target="_blank" rel="noopener" href="https://expressjs.com/">express</a>是一个非常轻量的框架</p>
+<ul>
+<li>fast</li>
+<li>unopinionated(干净的)</li>
+<li>minimalist</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://eggjs.org/">Egg</a>是一个企业级框架，约定大于配置</p>
+<ul>
+<li>Provide capability to <a target="_blank" rel="noopener" href="https://eggjs.org/en/advanced/framework.html">customizd framework</a> base on Egg（可扩展）</li>
+<li>Highly extensible <a target="_blank" rel="noopener" href="https://eggjs.org/en/basics/plugin.html">plugin mechanism</a>（插件牛逼）</li>
+<li>Built-in <a target="_blank" rel="noopener" href="https://eggjs.org/en/advanced/cluster-client.html">cluster</a>（多进程牛逼）</li>
+<li>Based on <a target="_blank" rel="noopener" href="http://koajs.com/">Koa</a> with high performance（企业级别性能优异）</li>
+<li>Stable core framework with high test coverage（稳定）</li>
+<li><a target="_blank" rel="noopener" href="https://eggjs.org/en/tutorials/progressive.html">Progressive development</a>（业务迭代，代码可以渐进继承）</li>
+</ul>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><ul>
+<li><input checked="" disabled="" type="checkbox"> MySQL</li>
+<li><input checked="" disabled="" type="checkbox"> PostgreSql</li>
+<li><input checked="" disabled="" type="checkbox"> Redis</li>
+<li><input checked="" disabled="" type="checkbox"> MongoDB</li>
+<li><input disabled="" type="checkbox"> SQL Server</li>
+<li><input disabled="" type="checkbox"> SQLLite</li>
+<li><input disabled="" type="checkbox"> influxdb</li>
+<li><input disabled="" type="checkbox"> HBASE</li>
+<li><input disabled="" type="checkbox"> TiDB</li>
+<li><input disabled="" type="checkbox"> Oracle</li>
+<li><input disabled="" type="checkbox"> DB2</li>
+</ul>
+<p>数据库是仅此于语言本身，另外的考点了，因为没有一个服务不涉猎存储，而数据库作为系统的数据基础，不仅重要也成为了面试的重点</p>
+<ul>
+<li>mysql等关系型数据库，范式，事务，innodb，读写分离，分表</li>
+<li>Mongo,Redis等非关系型数据基础类型，聚合等</li>
+</ul>
+<h1 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h1><ul>
+<li><p><input checked="" disabled="" type="checkbox"> 
+Nginx</p>
+</li>
+<li><p><input checked="" disabled="" type="checkbox"> 
+Tomcat</p>
+</li>
+<li><p><input disabled="" type="checkbox"> 
+Apache</p>
+</li>
+<li><p>解决负载均衡</p>
+</li>
+<li><p>预处理一些请求，如过滤重复请求</p>
+</li>
+</ul>
+<h1 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h1><ul>
+<li><input checked="" disabled="" type="checkbox"> Docker</li>
+<li><input checked="" disabled="" type="checkbox"> PM2</li>
+<li><input checked="" disabled="" type="checkbox"> forever</li>
+<li><input disabled="" type="checkbox"> naught</li>
+<li><input disabled="" type="checkbox"> node-supervisor</li>
+<li><input disabled="" type="checkbox"> Supervisord(Unix)</li>
+</ul>
+<p>docker集大成者，在微服务等场景应用较多</p>
+<h1 id="RPC方式"><a href="#RPC方式" class="headerlink" title="RPC方式"></a>RPC方式</h1><ul>
+<li><input checked="" disabled="" type="checkbox"> HTTP</li>
+<li><input disabled="" type="checkbox"> Thrift</li>
+<li><input checked="" disabled="" type="checkbox"> gRPC</li>
+<li><input disabled="" type="checkbox"> dubbo</li>
+<li><input checked="" disabled="" type="checkbox"> MQ</li>
+</ul>
+<h1 id="开发场景"><a href="#开发场景" class="headerlink" title="开发场景"></a>开发场景</h1><ul>
+<li><input disabled="" type="checkbox"> 服务端API</li>
+<li><input disabled="" type="checkbox"> SSR应用</li>
+<li><input disabled="" type="checkbox"> Proxy层</li>
+<li><input disabled="" type="checkbox"> BFF层</li>
+<li><input disabled="" type="checkbox"> 代码片段，如Spark代码片段</li>
+<li><input disabled="" type="checkbox"> CLI &amp; 工具</li>
+</ul>
+<h4 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h4><ul>
+<li><input disabled="" type="checkbox"> </li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/List/" rel="tag"># List</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/01/31/2020-01-31-JS%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="prev" title="2020-01-31-JS设计模式">
+                  <i class="fa fa-angle-left"></i> 2020-01-31-JS设计模式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/28/2020-02-28-%E5%85%B3%E4%BA%8E%E4%BB%8A%E5%A4%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" rel="next" title="2020-02-28-关于今天的一些思考">
+                  2020-02-28-关于今天的一些思考 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
